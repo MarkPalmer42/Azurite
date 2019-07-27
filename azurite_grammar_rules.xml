@@ -64,15 +64,15 @@
 			</automata>
 			<automata name="operator" type="stateless" case_sensitive="true" output="operator">
 				<accepted_strings>
-					<accepted_string str="&&" />
+					<accepted_string str="&amp;&amp;" />
 					<accepted_string str="||" />
 					<accepted_string str="=" />
 					<accepted_string str="!=" />
 					<accepted_string str="==" />
-					<accepted_string str="<=" />
-					<accepted_string str=">=" />
-					<accepted_string str="<" />
-					<accepted_string str=">" />
+					<accepted_string str="&lt;=" />
+					<accepted_string str="&gt;=" />
+					<accepted_string str="&lt;" />
+					<accepted_string str="&gt;" />
 					<accepted_string str=";" />
 					<accepted_string str="(" />
 					<accepted_string str=")" />
