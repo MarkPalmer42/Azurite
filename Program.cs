@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Azurite.LexicalParser;
+using System;
 
 namespace Azurite
 {
@@ -10,6 +8,16 @@ namespace Azurite
     {
         static void Main(string[] args)
         {
+            try
+            {
+                Parser parser = new Parser("../../lexical_parser_rules.xml", "../../lexical_parser.xsd");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception occured: " + e.Message);
+            }
+            
+            Console.Read();
         }
     }
 }
