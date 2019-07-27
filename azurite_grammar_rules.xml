@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<azurite>
+	<lexical>
+		<elements>
+			<element>keyword</element>
+			<element>identifier</element>
+			<element>operator</element>
+			<element>literal</element>
+		</elements>
+		<automatas>
+			<automata name="keywords" type="stateless" case_sensitive="true" output="keyword">
+				<accepted_strings>
+					<accepted_string str="bool" />
+					<accepted_string str="int" />
+					<accepted_string str="program" />
+					<accepted_string str="if" />
+					<accepted_string str="else" />
+					<accepted_string str="while" />
+				</accepted_strings>
+			</automata>
+			<automata name="boolean_literal" type="stateless" case_sensitive="true" output="literal">
+				<accepted_strings>
+					<accepted_string str="false" />
+					<accepted_string str="true" />
+				</accepted_strings>
+			</automata>
+			<automata name="integer_literal" type="stated" output="literal">
+				<states>
+					<state id="0" type="start">
+						<transitions>
+							<transition target="1">
+								<input from="0" to="9" />
+							</transition>
+						</transitions>
+					</state>
+					<state id="1" type="accept">
+						<transitions>
+							<transition target="1">
+								<input from="0" to="9" />
+							</transition>
+						</transitions>
+					</state>
+				</states>
+			</automata>
+			<automata name="string_literal" type="stated" output="literal">
+				<states>
+					<state id="0" type="start">
+						<transitions>
+							<transition target="1">
+								<input>"</input>
+							</transition>
+						</transitions>
+					</state>
+					<state id="1" type="undefined">
+						<transitions>
+							<transition target="1" />
+							<transition target="2">
+								<input>"</input>
+							</transition>
+						</transitions>
+					</state>
+					<state id="2" type="accepted" />
+				</states>
+			</automata>
+			<automata name="operator" type="stateless" case_sensitive="true" output="operator">
+				<accepted_strings>
+					<accepted_string str="&&" />
+					<accepted_string str="||" />
+					<accepted_string str="=" />
+					<accepted_string str="!=" />
+					<accepted_string str="==" />
+					<accepted_string str="<=" />
+					<accepted_string str=">=" />
+					<accepted_string str="<" />
+					<accepted_string str=">" />
+					<accepted_string str=";" />
+					<accepted_string str="(" />
+					<accepted_string str=")" />
+					<accepted_string str="{" />
+					<accepted_string str="}" />
+					<accepted_string str="+" />
+					<accepted_string str="-" />
+					<accepted_string str="*" />
+					<accepted_string str="/" />
+					<accepted_string str="+=" />
+					<accepted_string str="-=" />
+					<accepted_string str="*=" />
+					<accepted_string str="/=" />
+					<accepted_string str=";" />
+				</accepted_strings>
+			</automata>
+			<automata name="identifier" type="stated" output="identifier">
+				<states>
+					<state id="0" type="start">
+						<transitions>
+							<transition target="1">
+								<input>_</input>
+							</transition>
+							<transition target="2">
+								<input from="a" to="z" />
+								<input from="A" to="Z" />
+							</transition>
+						</transitions>
+					</state>
+					<state id="1" type="undefined">
+						<transitions>
+							<transition target="2">
+								<input from="a" to="z" />
+								<input from="A" to="Z" />
+							</transition>
+						</transitions>
+					</state>
+					<state id="2" type="accepted">
+						<transitions>
+							<transition target="2">
+								<input from="a" to="z" />
+								<input from="A" to="Z" />
+								<input from="0" to="9" />
+							</transition>
+							<transition target="3">
+								<input>_</input>
+							</transition>
+						</transitions>
+					</state>
+					<state id="3" type="accepted">
+						<transitions>
+							<transition target="2">
+								<input from="a" to="z" />
+								<input from="A" to="Z" />
+								<input from="0" to="9" />
+							</transition>
+						</transitions>
+					</state>
+				</states>
+			</automata>
+		</automatas>
+	</lexical>
+</azurite>
