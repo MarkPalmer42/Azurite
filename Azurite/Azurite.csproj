@@ -43,7 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LexicalParser\AutomataState.cs" />
+    <Compile Include="LexicalParser\AutomataStateDefinition.cs" />
+    <Compile Include="LexicalParser\GeneralAutomata.cs" />
+    <Compile Include="LexicalParser\IAutomata.cs" />
     <Compile Include="LexicalParser\Parser.cs" />
+    <Compile Include="LexicalParser\StatedAutomata.cs" />
+    <Compile Include="LexicalParser\StatelessAutomata.cs" />
+    <Compile Include="LexicalParser\StateTransition.cs" />
+    <Compile Include="LexicalParser\Token.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
