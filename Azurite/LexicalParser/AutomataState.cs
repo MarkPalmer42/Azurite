@@ -6,6 +6,7 @@ namespace Azurite.LexicalParser
     /// </summary>
     public enum AutomataStateType
     {
+        Start,
         Undefined,
         Accepted,
         Declined

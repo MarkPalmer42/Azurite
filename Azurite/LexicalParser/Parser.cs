@@ -1,43 +1,32 @@
 ﻿
-using System;
-using System.Xml;
-using System.Xml.Schema;
+using System.Collections.Generic;
 
 namespace Azurite.LexicalParser
 {
+
+    /// <summary>
+    /// The lexical parser.
+    /// </summary>
     public class Parser
     {
 
+        /// <summary>
+        /// The list of the automatas.
+        /// </summary>
+        List<IAutomata> automataList;
+
+        /// <summary>
+        /// Constructor of the parser class.
+        /// </summary>
+        /// <param name="xmlPath">The path of the XML file</param>
+        /// <param name="xsdPath">The path of the XSD file</param>
         public Parser(string xmlPath, string xsdPath)
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ValidationType = ValidationType.Schema;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
-            settings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
-            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
-            settings.Schemas.Add(null, xsdPath);
-            
-            XmlReader reader = XmlReader.Create(xmlPath, settings);
-            
-            while (reader.Read())
-            {
-                
-            }
+            XMLParserReader reader = new XMLParserReader();
+
+            automataList = reader.ReadXML(xmlPath, xsdPath);
         }
         
-        private void ValidationCallBack(object sender, ValidationEventArgs args)
-        {
-            if (args.Severity == XmlSeverityType.Error)
-            {
-                throw new Exception("XML exception occured: " + args.Message);
-            }
-            else
-            {
-                Console.WriteLine("Warning: " + args.Message);
-            }
-        }
-
     }
 
 }

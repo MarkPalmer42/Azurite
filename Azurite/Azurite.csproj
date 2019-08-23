@@ -52,6 +52,7 @@
     <Compile Include="LexicalParser\StatelessAutomata.cs" />
     <Compile Include="LexicalParser\StateTransition.cs" />
     <Compile Include="LexicalParser\Token.cs" />
+    <Compile Include="LexicalParser\XMLParserReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
