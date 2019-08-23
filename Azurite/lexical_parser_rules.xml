@@ -8,20 +8,20 @@
 			<element>literal</element>
 		</elements>
 		<automatas>
-			<automata name="keywords" type="stateless" case_sensitive="true" output="keyword">
+			<automata name="keywords" type="stateless" output="keyword">
 				<accepted_strings>
-					<accepted_string str="bool" />
-					<accepted_string str="int" />
-					<accepted_string str="program" />
-					<accepted_string str="if" />
-					<accepted_string str="else" />
-					<accepted_string str="while" />
+					<accepted_string>bool</accepted_string>
+					<accepted_string>int</accepted_string>
+					<accepted_string>program</accepted_string>
+					<accepted_string>if</accepted_string>
+					<accepted_string>else</accepted_string>
+					<accepted_string>while</accepted_string>
 				</accepted_strings>
 			</automata>
-			<automata name="boolean_literal" type="stateless" case_sensitive="true" output="literal">
+			<automata name="boolean_literal" type="stateless" output="literal">
 				<accepted_strings>
-					<accepted_string str="false" />
-					<accepted_string str="true" />
+					<accepted_string>false</accepted_string>
+					<accepted_string>true</accepted_string>
 				</accepted_strings>
 			</automata>
 			<automata name="integer_literal" type="stated" output="literal">
@@ -33,7 +33,7 @@
 							</transition>
 						</transitions>
 					</state>
-					<state id="1" type="accept">
+					<state id="1" type="accepted">
 						<transitions>
 							<transition target="1">
 								<input from="0" to="9" />
@@ -62,31 +62,31 @@
 					<state id="2" type="accepted" />
 				</states>
 			</automata>
-			<automata name="operator" type="stateless" case_sensitive="true" output="operator">
+			<automata name="operator" type="stateless" output="operator">
 				<accepted_strings>
-					<accepted_string str="&amp;&amp;" />
-					<accepted_string str="||" />
-					<accepted_string str="=" />
-					<accepted_string str="!=" />
-					<accepted_string str="==" />
-					<accepted_string str="&lt;=" />
-					<accepted_string str="&gt;=" />
-					<accepted_string str="&lt;" />
-					<accepted_string str="&gt;" />
-					<accepted_string str=";" />
-					<accepted_string str="(" />
-					<accepted_string str=")" />
-					<accepted_string str="{" />
-					<accepted_string str="}" />
-					<accepted_string str="+" />
-					<accepted_string str="-" />
-					<accepted_string str="*" />
-					<accepted_string str="/" />
-					<accepted_string str="+=" />
-					<accepted_string str="-=" />
-					<accepted_string str="*=" />
-					<accepted_string str="/=" />
-					<accepted_string str=";" />
+					<accepted_string>&amp;&amp;</accepted_string>
+					<accepted_string>||</accepted_string>
+					<accepted_string>=</accepted_string>
+					<accepted_string>!=</accepted_string>
+					<accepted_string>==</accepted_string>
+					<accepted_string>&lt;=</accepted_string>
+					<accepted_string>&gt;=</accepted_string>
+					<accepted_string>&lt;</accepted_string>
+					<accepted_string>&gt;</accepted_string>
+					<accepted_string>;</accepted_string>
+					<accepted_string>(</accepted_string>
+					<accepted_string>)</accepted_string>
+					<accepted_string>{</accepted_string>
+					<accepted_string>}</accepted_string>
+					<accepted_string>+</accepted_string>
+					<accepted_string>-</accepted_string>
+					<accepted_string>*</accepted_string>
+					<accepted_string>/</accepted_string>
+					<accepted_string>+=</accepted_string>
+					<accepted_string>-=</accepted_string>
+					<accepted_string>*=</accepted_string>
+					<accepted_string>/=</accepted_string>
+					<accepted_string>;</accepted_string>
 				</accepted_strings>
 			</automata>
 			<automata name="identifier" type="stated" output="identifier">
