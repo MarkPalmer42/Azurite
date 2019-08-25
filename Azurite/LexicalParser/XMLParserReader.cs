@@ -83,13 +83,18 @@ namespace Azurite.LexicalParser
             {
                 string type = n.Attributes["type"].Value;
                 string name = n.Attributes["name"].Value;
-                string output = n.Attributes["output"].Value;
+                int outputIndex = -1;
 
-                int outputIndex = elementNames.FindIndex(x => x == output);
-
-                if (-1 == outputIndex)
+                if (null != n.Attributes["output"])
                 {
-                    throw new Exception("Invalid output " + output);
+                    string output = n.Attributes["output"].Value;
+
+                    outputIndex = elementNames.FindIndex(x => x == output);
+
+                    if (-1 == outputIndex)
+                    {
+                        throw new Exception("Invalid output " + output);
+                    }
                 }
 
                 if ("stateless" == type)
@@ -100,6 +105,8 @@ namespace Azurite.LexicalParser
                     {
                         st.AddAcceptedText(n2.InnerText);
                     }
+
+                    automataList.Add(st);
                 }
                 else if ("stated" == type)
                 {
@@ -177,9 +184,15 @@ namespace Azurite.LexicalParser
                                 t.AddAcceptedChar(n4.InnerText[0]);
                             }
                         }
+
+                        asd.AddStateTransition(t);
                     }
                 }
+
+                st.AddStateDefinition(asd);
             }
+
+            automataList.Add(st);
         }
 
         /// <summary>
