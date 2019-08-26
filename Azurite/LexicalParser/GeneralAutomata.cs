@@ -120,5 +120,14 @@ namespace Azurite.LexicalParser
 
         }
 
+        /// <summary>
+        /// Decides whether the currently recognized token should be discarded.
+        /// </summary>
+        /// <returns>True if should be discarded, false otherwise</returns>
+        public bool IsDiscarded()
+        {
+            return -1 == tokenType;
+        }
+
     }
 }

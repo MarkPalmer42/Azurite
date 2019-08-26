@@ -39,5 +39,11 @@ namespace Azurite.LexicalParser
         /// <returns>The constructed token</returns>
         Token CreateToken(int line);
 
+        /// <summary>
+        /// Decides whether the currently recognized token should be discarded.
+        /// </summary>
+        /// <returns>True if should be discarded, false otherwise</returns>
+        bool IsDiscarded();
+
     }
 }

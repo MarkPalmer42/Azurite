@@ -26,7 +26,58 @@ namespace Azurite.LexicalParser
 
             automataList = reader.ReadXML(xmlPath, xsdPath);
         }
-        
+
+        public List<Token> Parse(string input)
+        {
+            List<Token> tokenList = new List<Token>();
+            
+            int i = 0;
+
+            automataList.ForEach(x => x.Reset());
+
+            while (i < input.Length)
+            {
+                automataList.ForEach(x => x.Feed(input[i]));
+
+                bool allDeclined = automataList.TrueForAll(x => x.CurrentState == AutomataStateType.Declined);
+
+                if (allDeclined)
+                {
+                    var lastAccept = automataList.Find(x => x.PreviousState == AutomataStateType.Accepted);
+
+                    if (default(IAutomata) == lastAccept)
+                    {
+                        throw new System.Exception("Parse error on input character " + input[i]);
+                    }
+
+                    if (!lastAccept.IsDiscarded())
+                    {
+                        tokenList.Add(lastAccept.CreateToken(0));
+                    }
+                    
+                    automataList.ForEach(x => x.Reset());
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+
+            var currentAccept = automataList.Find(x => x.CurrentState == AutomataStateType.Accepted);
+
+            if (default(IAutomata) == currentAccept)
+            {
+                throw new System.Exception("Parse error on input character " + input[input.Length - 1]);
+            }
+
+            if (!currentAccept.IsDiscarded())
+            {
+                tokenList.Add(currentAccept.CreateToken(0));
+            }
+
+            return tokenList;
+        }
+
     }
 
 }
