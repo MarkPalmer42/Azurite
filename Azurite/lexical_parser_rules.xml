@@ -133,6 +133,30 @@
 					</state>
 				</states>
 			</automata>
+			<automata name="whitespace" type="stated">
+				<states>
+					<state id="0" type="start">
+						<transitions>
+							<transition target="1">
+								<input>&#09;</input>
+								<input>&#10;</input>
+								<input>&#13;</input>
+								<input> </input>
+							</transition>
+						</transitions>
+					</state>
+					<state id="1" type="accepted">
+						<transitions>
+							<transition target="1">
+								<input>&#09;</input>
+								<input>&#10;</input>
+								<input>&#13;</input>
+								<input> </input>
+							</transition>
+						</transitions>
+					</state>
+				</states>
+			</automata>
 		</automatas>
 	</lexical>
 </azurite>
