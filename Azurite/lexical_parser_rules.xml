@@ -53,10 +53,10 @@
 					</state>
 					<state id="1" type="undefined">
 						<transitions>
-							<transition target="1" />
 							<transition target="2">
 								<input>"</input>
 							</transition>
+							<transition target="1" />
 						</transitions>
 					</state>
 					<state id="2" type="accepted" />
@@ -69,10 +69,10 @@
 					<accepted_string>=</accepted_string>
 					<accepted_string>!=</accepted_string>
 					<accepted_string>==</accepted_string>
-					<accepted_string>&lt;=</accepted_string>
-					<accepted_string>&gt;=</accepted_string>
 					<accepted_string>&lt;</accepted_string>
 					<accepted_string>&gt;</accepted_string>
+					<accepted_string>&lt;=</accepted_string>
+					<accepted_string>&gt;=</accepted_string>
 					<accepted_string>;</accepted_string>
 					<accepted_string>(</accepted_string>
 					<accepted_string>)</accepted_string>
