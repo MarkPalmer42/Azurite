@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<azurite>
+	<syntax>
+		<nonterminals>
+			<nonterminal>START</nonterminal>
+			<nonterminal>PROGBLOCK</nonterminal>
+			<nonterminal>INBLOCK</nonterminal>
+			<nonterminal>STRUCT</nonterminal>
+			<nonterminal>INSTRUCTION</nonterminal>
+			<nonterminal>IFBLOCK</nonterminal>
+			<nonterminal>WHILEBLOCK</nonterminal>
+			<nonterminal>EXPRESSION1</nonterminal>
+			<nonterminal>DECLARATION</nonterminal>
+			<nonterminal>IBLOCK</nonterminal>
+			<nonterminal>IELSEBLOCK</nonterminal>
+			<nonterminal>EXPRESSION2</nonterminal>
+			<nonterminal>EXPRESSION3</nonterminal>
+			<nonterminal>EXPRESSION4</nonterminal>
+			<nonterminal>EXPRESSION5</nonterminal>
+			<nonterminal>EXPRESSION6</nonterminal>
+			<nonterminal>EXPRESSION7</nonterminal>
+			<nonterminal>EXPRESSION8</nonterminal>
+			<nonterminal>EXPRESSION9</nonterminal>
+			<nonterminal>EXPRESSION10</nonterminal>
+			<nonterminal>EXPRESSION11</nonterminal>
+			<nonterminal>EXPRESSION12</nonterminal>
+			<nonterminal>EXPRESSION13</nonterminal>
+			<nonterminal>EXPRESSION14</nonterminal>
+			<nonterminal>EXPRESSION15</nonterminal>
+			<nonterminal>EXPRESSION16</nonterminal>
+			<nonterminal>EXPRESSION17</nonterminal>
+			<nonterminal>EXPRESSION18</nonterminal>
+		</nonterminals>
+		<rules>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">START</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" casesensitive="true">program</terminal>
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="identifier" />
+					</symbol>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="operator">{</terminal>
+					</symbol>
+					<symbol type="nonterminal">INBLOCK</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">}</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">INBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">STRUCT</symbol>
+					<symbol type="nonterminal">INBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">INBLOCK</symbol>
+				</leftside>
+				<rightside />
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">STRUCT</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">INSTRUCTION</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">STRUCT</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">IFBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">STRUCT</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">WHILEBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">INSTRUCTION</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">;</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">INSTRUCTION</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">DECLARATION</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">;</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">IFBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">IBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">IFBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">IELSEBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">IBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" casesensitive="true">if</terminal>
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">(</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">)</terminal>
+					</symbol>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">IELSEBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" casesensitive="true">if</terminal>
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">(</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">)</terminal>
+					</symbol>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+					<symbol type="terminal">
+						<terminal type="keyword" casesensitive="true">else</terminal>
+					</symbol>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">WHILEBLOCK</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" casesensitive="true">while</terminal>
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">(</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">)</terminal>
+					</symbol>
+					<symbol type="nonterminal">PROGBLOCK</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">DECLARATION</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" />
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="identifier" />
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">;</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">DECLARATION</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="keyword" />
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="identifier" />
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">=</terminal>
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="literal" />
+					</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">;</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">+=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION2</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION2</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION2</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION2</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">-=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION3</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION2</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION3</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION3</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION3</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">*=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION4</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION3</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION4</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION4</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION4</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">/=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION5</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION4</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION5</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION5</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION5</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION6</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION5</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION6</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION6</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION6</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">||</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION7</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION6</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION7</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION7</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION7</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">&amp;&amp;</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION8</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION7</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION8</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION8</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION8</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">==</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION9</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION8</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION9</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION9</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION9</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">!=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION10</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION9</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION10</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION10</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION10</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">&gt;</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION11</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION10</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION11</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION11</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION11</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">&gt;=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION12</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION11</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION12</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION12</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION12</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">&lt;</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION13</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION12</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION13</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION13</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION13</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">&lt;=</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION14</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION13</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION14</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION14</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION14</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">+</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION15</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION14</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION15</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION15</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION15</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">-</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION16</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION15</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION16</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION16</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION16</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">*</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION17</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION16</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION17</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION17</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION17</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">/</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION18</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION17</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">EXPRESSION18</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION18</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="operator">(</terminal>
+					</symbol>
+					<symbol type="nonterminal">EXPRESSION1</symbol>
+					<symbol type="terminal">
+						<terminal type="operator">)</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">EXPRESSION18</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="identifier" />
+					</symbol>
+				</rightside>
+			</rule>
+		</rules>
+	</syntax>
+</azurite>
