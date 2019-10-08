@@ -55,9 +55,20 @@
     <Compile Include="LexicalParser\XMLParserReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxAnalysis\ParsingStack.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParseTableElementType.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParsingRule.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParsingTable.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParsingTableElement.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxAnalysis.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeElement.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeFactory.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeNonterminal.cs" />
+    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeTerminal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
