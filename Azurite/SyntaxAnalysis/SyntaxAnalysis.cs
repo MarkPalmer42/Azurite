@@ -186,12 +186,16 @@ namespace Azurite.SyntaxAnalysis
                 }
                 else if (element.ElementType == ParsingTableElementType.accept)
                 {
-                    if(elemStack.Count != 2 || elemStack.Peek().Element.CompareTo(parsingRules[1].LeftSide) != 0)
+                    if (elemStack.Count != 2 || elemStack.Peek().Element.CompareTo(parsingRules[1].LeftSide) != 0)
                     {
                         throw new System.Exception("Syntax error: invalid parsing table.");
                     }
 
                     accepted = true;
+                }
+                else
+                {
+                    throw new System.Exception("Syntax error: unexpected token " + tokens[index].Text + " on line " + tokens[index].Line.ToString());
                 }
             }
             
