@@ -2,6 +2,7 @@
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System.Collections.Generic;
+using System;
 
 namespace Azurite.SyntaxAnalysis
 {
@@ -14,114 +15,23 @@ namespace Azurite.SyntaxAnalysis
 
         public SyntaxAnalysis()
         {
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token("$", 0)));
-
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token("(", 0)));
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token(")", 0)));
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token("*", 0)));
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token("+", 0)));
-            parsingTable.AddHeader(new SyntaxTreeTerminal(new Token("a", 0)));
-            parsingTable.AddHeader(new SyntaxTreeNonterminal("E"));
-            parsingTable.AddHeader(new SyntaxTreeNonterminal("F"));
-            parsingTable.AddHeader(new SyntaxTreeNonterminal("S"));
-            parsingTable.AddHeader(new SyntaxTreeNonterminal("T"));
-
-            for (int i = 0; i <= 12; ++i)
-            {
-                parsingTable.AddRow();
-            }
-
-            parsingTable.parsingTable[2][0] = new ParsingTableElement(ParsingTableElementType.reduce, 1);
-            parsingTable.parsingTable[3][0] = new ParsingTableElement(ParsingTableElementType.reduce, 5);
-            parsingTable.parsingTable[4][0] = new ParsingTableElement(ParsingTableElementType.accept);
-            parsingTable.parsingTable[5][0] = new ParsingTableElement(ParsingTableElementType.reduce, 3);
-            parsingTable.parsingTable[6][0] = new ParsingTableElement(ParsingTableElementType.reduce, 7);
-            parsingTable.parsingTable[10][0] = new ParsingTableElement(ParsingTableElementType.reduce, 6);
-            parsingTable.parsingTable[11][0] = new ParsingTableElement(ParsingTableElementType.reduce, 2);
-            parsingTable.parsingTable[12][0] = new ParsingTableElement(ParsingTableElementType.reduce, 4);
-
-            parsingTable.parsingTable[0][1] = new ParsingTableElement(ParsingTableElementType.shift, 1);
-            parsingTable.parsingTable[1][1] = new ParsingTableElement(ParsingTableElementType.shift, 1);
-            parsingTable.parsingTable[8][1] = new ParsingTableElement(ParsingTableElementType.shift, 1);
-            parsingTable.parsingTable[9][1] = new ParsingTableElement(ParsingTableElementType.shift, 1);
-
-            parsingTable.parsingTable[3][2] = new ParsingTableElement(ParsingTableElementType.reduce, 5);
-            parsingTable.parsingTable[5][2] = new ParsingTableElement(ParsingTableElementType.reduce, 3);
-            parsingTable.parsingTable[6][2] = new ParsingTableElement(ParsingTableElementType.reduce, 7);
-            parsingTable.parsingTable[7][2] = new ParsingTableElement(ParsingTableElementType.shift, 10);
-            parsingTable.parsingTable[10][2] = new ParsingTableElement(ParsingTableElementType.reduce, 6);
-            parsingTable.parsingTable[11][2] = new ParsingTableElement(ParsingTableElementType.reduce, 2);
-            parsingTable.parsingTable[12][2] = new ParsingTableElement(ParsingTableElementType.reduce, 4);
-
-            parsingTable.parsingTable[3][3] = new ParsingTableElement(ParsingTableElementType.reduce, 5);
-            parsingTable.parsingTable[5][3] = new ParsingTableElement(ParsingTableElementType.shift, 9);
-            parsingTable.parsingTable[6][3] = new ParsingTableElement(ParsingTableElementType.reduce, 7);
-            parsingTable.parsingTable[10][3] = new ParsingTableElement(ParsingTableElementType.reduce, 6);
-            parsingTable.parsingTable[11][3] = new ParsingTableElement(ParsingTableElementType.shift, 9);
-            parsingTable.parsingTable[12][3] = new ParsingTableElement(ParsingTableElementType.reduce, 4);
-
-            parsingTable.parsingTable[2][4] = new ParsingTableElement(ParsingTableElementType.shift, 8);
-            parsingTable.parsingTable[3][4] = new ParsingTableElement(ParsingTableElementType.reduce, 5);
-            parsingTable.parsingTable[5][4] = new ParsingTableElement(ParsingTableElementType.reduce, 3);
-            parsingTable.parsingTable[6][4] = new ParsingTableElement(ParsingTableElementType.reduce, 7);
-            parsingTable.parsingTable[7][4] = new ParsingTableElement(ParsingTableElementType.shift, 8);
-            parsingTable.parsingTable[10][4] = new ParsingTableElement(ParsingTableElementType.reduce, 6);
-            parsingTable.parsingTable[11][4] = new ParsingTableElement(ParsingTableElementType.reduce, 2);
-            parsingTable.parsingTable[12][4] = new ParsingTableElement(ParsingTableElementType.reduce, 4);
-
-            parsingTable.parsingTable[0][5] = new ParsingTableElement(ParsingTableElementType.shift, 6);
-            parsingTable.parsingTable[1][5] = new ParsingTableElement(ParsingTableElementType.shift, 6);
-            parsingTable.parsingTable[8][5] = new ParsingTableElement(ParsingTableElementType.shift, 6);
-            parsingTable.parsingTable[9][5] = new ParsingTableElement(ParsingTableElementType.shift, 6);
-
-            parsingTable.parsingTable[0][6] = new ParsingTableElement(ParsingTableElementType.jump, 2);
-            parsingTable.parsingTable[1][6] = new ParsingTableElement(ParsingTableElementType.jump, 7);
-
-            parsingTable.parsingTable[0][7] = new ParsingTableElement(ParsingTableElementType.jump, 3);
-            parsingTable.parsingTable[1][7] = new ParsingTableElement(ParsingTableElementType.jump, 3);
-            parsingTable.parsingTable[8][7] = new ParsingTableElement(ParsingTableElementType.jump, 3);
-            parsingTable.parsingTable[9][7] = new ParsingTableElement(ParsingTableElementType.jump, 12);
-
-            parsingTable.parsingTable[0][8] = new ParsingTableElement(ParsingTableElementType.jump, 4);
-
-            parsingTable.parsingTable[0][9] = new ParsingTableElement(ParsingTableElementType.jump, 5);
-            parsingTable.parsingTable[1][9] = new ParsingTableElement(ParsingTableElementType.jump, 5);
-            parsingTable.parsingTable[8][9] = new ParsingTableElement(ParsingTableElementType.jump, 11);
-
-            for (int i = 0; i < 8; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 parsingRules.Add(new ParsingRule());
             }
 
             parsingRules[0].LeftSide = new SyntaxTreeNonterminal("S'");
-            parsingRules[0].RightSide.Add(new SyntaxTreeNonterminal("S"));
+            parsingRules[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
+            parsingRules[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
 
-            parsingRules[1].LeftSide = new SyntaxTreeNonterminal("S");
-            parsingRules[1].RightSide.Add(new SyntaxTreeNonterminal("E"));
+            parsingRules[1].LeftSide = new SyntaxTreeNonterminal("B");
+            parsingRules[1].RightSide.Add(new SyntaxTreeTerminal(new Token("c", 0)));
+            parsingRules[1].RightSide.Add(new SyntaxTreeNonterminal("B"));
 
-            parsingRules[2].LeftSide = new SyntaxTreeNonterminal("E");
-            parsingRules[2].RightSide.Add(new SyntaxTreeNonterminal("E"));
-            parsingRules[2].RightSide.Add(new SyntaxTreeTerminal(new Token("+", 0)));
-            parsingRules[2].RightSide.Add(new SyntaxTreeNonterminal("T"));
+            parsingRules[2].LeftSide = new SyntaxTreeNonterminal("B");
+            parsingRules[2].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
 
-            parsingRules[3].LeftSide = new SyntaxTreeNonterminal("E");
-            parsingRules[3].RightSide.Add(new SyntaxTreeNonterminal("T"));
-
-            parsingRules[4].LeftSide = new SyntaxTreeNonterminal("T");
-            parsingRules[4].RightSide.Add(new SyntaxTreeNonterminal("T"));
-            parsingRules[4].RightSide.Add(new SyntaxTreeTerminal(new Token("*", 0)));
-            parsingRules[4].RightSide.Add(new SyntaxTreeNonterminal("F"));
-
-            parsingRules[5].LeftSide = new SyntaxTreeNonterminal("T");
-            parsingRules[5].RightSide.Add(new SyntaxTreeNonterminal("F"));
-
-            parsingRules[6].LeftSide = new SyntaxTreeNonterminal("F");
-            parsingRules[6].RightSide.Add(new SyntaxTreeTerminal(new Token("(", 0)));
-            parsingRules[6].RightSide.Add(new SyntaxTreeNonterminal("E"));
-            parsingRules[6].RightSide.Add(new SyntaxTreeTerminal(new Token(")", 0)));
-
-            parsingRules[7].LeftSide = new SyntaxTreeNonterminal("F");
-            parsingRules[7].RightSide.Add(new SyntaxTreeTerminal(new Token("a", 0)));
+            BuildParseTable();
         }
 
         public SyntaxTreeElement AnalyzeSyntax(List<Token> tokens)
@@ -200,6 +110,202 @@ namespace Azurite.SyntaxAnalysis
             }
             
             return elemStack.Peek().Element;
+        }
+
+        class ParseState : IComparable
+        {
+
+            public ParsingRule Rule { get; set; }
+
+            public int State { get; set; }
+
+            public ParseState(ParsingRule rule, int state)
+            {
+                Rule = rule;
+                State = state;
+            }
+
+            public int CompareTo(object obj)
+            {
+                ParseState s = obj as ParseState;
+
+                if (null != s)
+                {
+                    if (Rule.CompareTo(s.Rule) == 0 && State == s.State)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        };
+
+        class RuleSet : IComparable
+        {
+            public ParseState Rules { get; set; }
+
+            public int TargetSet { get; set; }
+
+            public RuleSet(ParseState parseState)
+            {
+                Rules = parseState;
+                TargetSet = -1;
+            }
+
+            public int CompareTo(object obj)
+            {
+                RuleSet s = obj as RuleSet;
+
+                if (null != s)
+                {
+                    if (Rules.CompareTo(s.Rules) == 0)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+        };
+
+        void BuildParseTable()
+        {
+            if (parsingRules.Count < 1)
+            {
+                throw new System.Exception("Cannot build parse table without input rules.");
+            }
+
+            List<List<RuleSet>> parseStates = new List<List<RuleSet>>();
+
+            ParsingRule rule = new ParsingRule();
+
+            rule.LeftSide = new SyntaxTreeNonterminal("ZEROETHSTATE");
+            rule.RightSide.Add(parsingRules[0].LeftSide);
+
+            ParseState startState = new ParseState(rule, 0);
+
+            RuleSet startSet = new RuleSet(startState);
+
+            RecursiveTableBuild(ref parseStates, startSet);
+
+            foreach (var i in parseStates)
+            {
+                foreach (var j in i)
+                {
+                    Console.Write("Target: " + j.TargetSet.ToString() + " ");
+                    Console.Write("State: " + j.Rules.State.ToString() + " ");
+                    Console.Write("\t" + j.Rules.Rule.LeftSide.Name);
+                    Console.Write("\t->\t");
+
+                    foreach (var k in j.Rules.Rule.RightSide)
+                    {
+                        SyntaxTreeTerminal t = k as SyntaxTreeTerminal;
+                        SyntaxTreeNonterminal nt = k as SyntaxTreeNonterminal;
+
+                        if (null != t)
+                        {
+                            Console.Write(t.SyntaxToken.Text + "\t");
+                        }
+                        else if (null != nt)
+                        {
+                            Console.Write(nt.Name + "\t");
+                        }
+                    }
+
+                    Console.WriteLine("");
+                }
+
+                Console.WriteLine("");
+            }
+        }
+
+        int RecursiveTableBuild(ref List<List<RuleSet>> ruleSets, RuleSet extendable = null)
+        {
+            if (null != extendable)
+            {
+                int idx = ruleSets.FindIndex(x => x[0].CompareTo(extendable) == 0);
+
+                if (-1 != idx)
+                {
+                    return idx;
+                }
+                else
+                {
+                    ruleSets.Add(new List<RuleSet>());
+                    ruleSets[ruleSets.Count - 1].Add(extendable);
+                }
+            }
+
+            int currentRuleSet = ruleSets.Count - 1;
+
+            int currentRuleIndex = 0;
+
+            while (currentRuleIndex < ruleSets[currentRuleSet].Count)
+            {
+                var currentRule = ruleSets[currentRuleSet][currentRuleIndex];
+
+                SyntaxTreeElement nextSymbol = null;
+
+                if (currentRule.Rules.Rule.RightSide.Count > currentRule.Rules.State)
+                {
+                    nextSymbol = currentRule.Rules.Rule.RightSide[currentRule.Rules.State];
+                }
+
+                if (null != nextSymbol)
+                {
+                    if (nextSymbol is SyntaxTreeNonterminal)
+                    {
+                        foreach (var rule in parsingRules)
+                        {
+                            if (0 == rule.LeftSide.CompareTo(nextSymbol))
+                            {
+                                RuleSet extendedRuleSet = new RuleSet(new ParseState(rule, 0));
+
+                                int idx = ruleSets[currentRuleSet].FindIndex(x => x.CompareTo(extendedRuleSet) == 0);
+
+                                if (-1 == idx)
+                                {
+                                    ruleSets[currentRuleSet].Add(extendedRuleSet);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                ++currentRuleIndex;
+            }
+
+            foreach (var s in ruleSets[currentRuleSet])
+            {
+                SyntaxTreeElement nextSymbol = null;
+
+                if (s.Rules.Rule.RightSide.Count > s.Rules.State)
+                {
+                    nextSymbol = s.Rules.Rule.RightSide[s.Rules.State];
+                }
+
+                if (null != nextSymbol)
+                {
+                    RuleSet nextRuleSet = new RuleSet(new ParseState(s.Rules.Rule, s.Rules.State + 1));
+                    s.TargetSet = RecursiveTableBuild(ref ruleSets, nextRuleSet);
+                }
+            }
+
+            return currentRuleSet;
         }
 
     }

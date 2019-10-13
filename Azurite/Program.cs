@@ -53,7 +53,7 @@ namespace Azurite
 
                 SyntaxAnalysis.SyntaxAnalysis syntaxAnalysis = new SyntaxAnalysis.SyntaxAnalysis();
 
-                List<Token> list = new List<Token>();
+                /*List<Token> list = new List<Token>();
 
                 list.Add(new Token("a", 0));
                 list.Add(new Token("*", 0));
@@ -65,7 +65,7 @@ namespace Azurite
                 list.Add(new Token("a", 0));
                 list.Add(new Token(")", 0));
 
-                WriteSyntaxTreeElement(syntaxAnalysis.AnalyzeSyntax(list), "");
+                WriteSyntaxTreeElement(syntaxAnalysis.AnalyzeSyntax(list), "");*/
             }
             catch (Exception e)
             {

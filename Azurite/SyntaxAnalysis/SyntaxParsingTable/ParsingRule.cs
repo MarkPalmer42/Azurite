@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 {
-    public class ParsingRule
+    public class ParsingRule : IComparable
     {
 
         public SyntaxTreeNonterminal LeftSide { get; set; }
@@ -17,6 +17,36 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
         public ParsingRule()
         {
             RightSide = new List<SyntaxTreeElement>();
+        }
+
+        public int CompareTo(object obj)
+        {
+            ParsingRule s = obj as ParsingRule;
+
+            if (null != s)
+            {
+                if (LeftSide.CompareTo(s.LeftSide) != 0 && RightSide.Count != s.RightSide.Count)
+                {
+                    return 1;
+                }
+                else
+                {
+                    bool found = false;
+                    int i = 0;
+
+                    while (!found && i < RightSide.Count)
+                    {
+                        found = RightSide[i].CompareTo(s.RightSide[i]) != 0;
+                        ++i;
+                    }
+
+                    return found ? 1 : 0;
+                }
+            }
+            else
+            {
+                return -1;
+            }
         }
 
     }
