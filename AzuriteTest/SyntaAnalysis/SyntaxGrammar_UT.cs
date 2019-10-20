@@ -1,13 +1,20 @@
-﻿using System;
+﻿
 using Azurite.SyntaxAnalysis.Grammar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AzuriteTest.SyntaAnalysis
 {
+
+    /// <summary>
+    /// Unit tests for the SyntaxGrammar class.
+    /// </summary>
     [TestClass]
-    public class Grammar_UT
+    public class SyntaxGrammar_UT
     {
 
+        /// <summary>
+        /// Simple grammar construction.
+        /// </summary>
         [TestMethod]
         public void SimpleGrammar_Construction()
         {
@@ -24,6 +31,9 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(2, g.ProductionRules[1].RightSide.Count);
         }
 
+        /// <summary>
+        /// Unit tests for validating valid grammars.
+        /// </summary>
         [TestMethod]
         public void SimpleGrammar_Validation_1()
         {
@@ -50,6 +60,9 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(true, g3.IsValid());
         }
 
+        /// <summary>
+        /// Unit tests for validating invalid grammars.
+        /// </summary>
         [TestMethod]
         public void SimpleGrammar_Validation_2()
         {
