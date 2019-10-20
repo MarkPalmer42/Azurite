@@ -18,7 +18,7 @@ namespace Azurite.SyntaxAnalysis
         /// </summary>
         /// <param name="grammar">The grammar</param>
         /// <returns>A parsing table</returns>
-        public static ParsingTable BuildParseTable(SyntaxGrammar grammar)
+        public static ParsingTable BuildParseTable(SyntaxGrammar grammar, List<TerminalList> firstSet)
         {
             if (!grammar.IsValid())
             {
@@ -27,6 +27,8 @@ namespace Azurite.SyntaxAnalysis
 
             ParsingTable table = new ParsingTable();
             
+            
+
             return table;
         }
 

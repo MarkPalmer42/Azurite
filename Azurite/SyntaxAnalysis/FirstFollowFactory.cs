@@ -135,7 +135,7 @@ namespace Azurite.SyntaxAnalysis
                                 }
                                 else
                                 {
-                                    SyntaxTreeTerminal extremal = new SyntaxTreeTerminal(new Token("$", 0));
+                                    SyntaxTreeTerminal extremal = new SyntaxTreeTerminal(new ExtremalToken());
 
                                     termList.AddTerminal(extremal);
                                 }
@@ -146,7 +146,7 @@ namespace Azurite.SyntaxAnalysis
             }
 
             /* Adding an extremal element for the staring rule, it always follow the starting rule. */
-            followSet[0].Terminals.Add(new SyntaxTreeTerminal(new Token("$", 0)));
+            followSet[0].Terminals.Add(new SyntaxTreeTerminal(new ExtremalToken()));
 
             return followSet;
         }

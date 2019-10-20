@@ -1,10 +1,12 @@
 ﻿
+using System;
+
 namespace Azurite.LexicalParser
 {
     /// <summary>
     /// The token type.
     /// </summary>
-    public class Token
+    public class Token : IComparable
     {
 
         /// <summary>
@@ -48,6 +50,25 @@ namespace Azurite.LexicalParser
         {
             TokenType = type;
             TokenTypeName = typeName;
+        }
+
+        /// <summary>
+        /// Compares this token instance to an object.
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>0 if equal, 1 if not equal, -1 if the object is not a Token</returns>
+        public virtual int CompareTo(object obj)
+        {
+            Token t = obj as Token;
+
+            if (null != t)
+            {
+                return (t.Text == Text && t.TokenType == TokenType) ? 0 : 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
     }

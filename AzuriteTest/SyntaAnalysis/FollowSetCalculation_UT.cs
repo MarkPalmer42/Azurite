@@ -46,10 +46,10 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(2, terminalLists[1].Terminals.Count);
             Assert.AreEqual(1, terminalLists[2].Terminals.Count);
 
-            Assert.AreNotEqual(-1, terminalLists[0].Terminals[0].SyntaxToken.Text == "$");
+            Assert.AreNotEqual(-1, terminalLists[0].Terminals[0].SyntaxToken.CompareTo(new ExtremalToken()) == 0);
 
             Assert.AreNotEqual(-1, terminalLists[1].Terminals.FindIndex(x => x.SyntaxToken.Text == "c"));
-            Assert.AreNotEqual(-1, terminalLists[1].Terminals.FindIndex(x => x.SyntaxToken.Text == "$"));
+            Assert.AreNotEqual(-1, terminalLists[1].Terminals.FindIndex(x => x.SyntaxToken.CompareTo(new ExtremalToken()) == 0));
 
             Assert.AreNotEqual(-1, terminalLists[2].Terminals[0].SyntaxToken.Text == "d");
         }

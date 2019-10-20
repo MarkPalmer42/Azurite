@@ -78,7 +78,7 @@ namespace Azurite.SyntaxAnalysis
 
             elemStack.Push(new ParsingStackElement(null, 0));
 
-            tokens.Add(new Token("$", 0));
+            tokens.Add(new ExtremalToken());
 
             while(!accepted && index < tokens.Count)
             {
