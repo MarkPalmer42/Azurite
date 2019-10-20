@@ -20,12 +20,12 @@ namespace Azurite.SyntaxAnalysis
         /// </summary>
         /// <param name="grammar">The grammar</param>
         /// <returns>List of first sets</returns>
-        public static List<TerminalList> CalculateFirstSet(List<GrammarRule> grammar)
+        public static List<TerminalList> CalculateFirstSet(SyntaxGrammar grammar)
         {
             List<TerminalList> firstSet = new List<TerminalList>();
             List<SyntaxTreeNonterminal> deduced = new List<SyntaxTreeNonterminal>();
 
-            RecursiveCalculateFirst(ref firstSet, grammar, grammar[0].LeftSide);
+            RecursiveCalculateFirst(ref firstSet, grammar, grammar.ProductionRules[0].LeftSide);
 
             return firstSet;
         }
@@ -37,7 +37,7 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="first">The output set of first terminals</param>
         /// <param name="grammar">The grammar input</param>
         /// <param name="deduction">The currently deduced grammar rule</param>
-        private static void RecursiveCalculateFirst(ref List<TerminalList> first, List<GrammarRule> grammar, SyntaxTreeNonterminal deduction)
+        private static void RecursiveCalculateFirst(ref List<TerminalList> first, SyntaxGrammar grammar, SyntaxTreeNonterminal deduction)
         {
             if (-1 != first.FindIndex(x => x.NonTerminal.CompareTo(deduction) == 0))
             {
@@ -48,7 +48,7 @@ namespace Azurite.SyntaxAnalysis
 
             first.Add(termList);
 
-            foreach (var rule in grammar)
+            foreach (var rule in grammar.ProductionRules)
             {
                 if (deduction.CompareTo(rule.LeftSide) == 0)
                 {
@@ -59,7 +59,7 @@ namespace Azurite.SyntaxAnalysis
                 }
             }
 
-            foreach (var rule in grammar)
+            foreach (var rule in grammar.ProductionRules)
             {
                 if (deduction.CompareTo(rule.LeftSide) == 0)
                 {
@@ -88,18 +88,18 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="grammar">The grammar</param>
         /// <param name="firstSet">The first set</param>
         /// <returns>The follow set</returns>
-        public static List<TerminalList> CalculateFollowSet(List<GrammarRule> grammar, List<TerminalList> firstSet)
+        public static List<TerminalList> CalculateFollowSet(SyntaxGrammar grammar, List<TerminalList> firstSet)
         {
             List<TerminalList> followSet = new List<TerminalList>();
 
-            foreach (var rule in grammar)
+            foreach (var rule in grammar.ProductionRules)
             {
                 if (-1 == followSet.FindIndex(x => x.NonTerminal.CompareTo(rule.LeftSide) == 0))
                 {
                     TerminalList termList = new TerminalList(rule.LeftSide);
                     followSet.Add(termList);
 
-                    foreach(var r in grammar)
+                    foreach(var r in grammar.ProductionRules)
                     {
                         for(int i = 0; i < r.RightSide.Count; ++i)
                         {

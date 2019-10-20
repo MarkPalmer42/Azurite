@@ -23,34 +23,13 @@ namespace AzuriteTest.SyntaAnalysis
         [TestMethod]
         public void FirstSetGeneration_1()
         {
-            /*List<GrammarRule> grammar = new List<GrammarRule>();
+            SyntaxGrammar grammar = new SyntaxGrammar();
 
-            for (int i = 0; i < 5; ++i)
-            {
-                grammar.Add(new GrammarRule());
-            }
-
-            grammar[0].LeftSide = new SyntaxTreeNonterminal("S");
-            grammar[0].RightSide = new List<SyntaxTreeElement>();
-            grammar[0].RightSide.Add(new SyntaxTreeNonterminal("E"));
-
-            grammar[1].LeftSide = new SyntaxTreeNonterminal("E");
-            grammar[1].RightSide = new List<SyntaxTreeElement>();
-            grammar[1].RightSide.Add(new SyntaxTreeNonterminal("B"));
-            grammar[1].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
-
-            grammar[2].LeftSide = new SyntaxTreeNonterminal("B");
-            grammar[2].RightSide = new List<SyntaxTreeElement>();
-            grammar[2].RightSide.Add(new SyntaxTreeNonterminal("E"));
-            grammar[2].RightSide.Add(new SyntaxTreeTerminal(new Token("c", 0)));
-
-            grammar[3].LeftSide = new SyntaxTreeNonterminal("E");
-            grammar[3].RightSide = new List<SyntaxTreeElement>();
-            grammar[3].RightSide.Add(new SyntaxTreeTerminal(new Token("c", 0)));
-
-            grammar[4].LeftSide = new SyntaxTreeNonterminal("B");
-            grammar[4].RightSide = new List<SyntaxTreeElement>();
-            grammar[4].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
+            grammar.AddSimpleRule('S', "E");
+            grammar.AddSimpleRule('E', "Bd");
+            grammar.AddSimpleRule('B', "Ec");
+            grammar.AddSimpleRule('E', "c");
+            grammar.AddSimpleRule('B', "d");
 
             List<TerminalList> terminalLists = new List<TerminalList>();
 
@@ -73,7 +52,7 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreNotEqual(-1, terminalLists[1].Terminals.FindIndex(x => x.SyntaxToken.Text == "c"));
 
             Assert.AreNotEqual(-1, terminalLists[2].Terminals.FindIndex(x => x.SyntaxToken.Text == "d"));
-            Assert.AreNotEqual(-1, terminalLists[2].Terminals.FindIndex(x => x.SyntaxToken.Text == "c"));*/
+            Assert.AreNotEqual(-1, terminalLists[2].Terminals.FindIndex(x => x.SyntaxToken.Text == "c"));
         }
     }
 }
