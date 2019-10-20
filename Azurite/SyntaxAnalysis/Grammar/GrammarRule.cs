@@ -3,7 +3,7 @@ using Azurite.SyntaxAnalysis.SyntaxTree;
 using System;
 using System.Collections.Generic;
 
-namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
+namespace Azurite.SyntaxAnalysis.Grammar
 {
 
     /// <summary>
@@ -15,12 +15,12 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
         /// <summary>
         /// The left side of the grammar rule.
         /// </summary>
-        public SyntaxTreeNonterminal LeftSide { get; set; }
+        public SyntaxTreeNonterminal LeftSide { get; private set; }
 
         /// <summary>
         /// The right side of the grammar rule. A list of terminals and nonterminals.
         /// </summary>
-        public List<SyntaxTreeElement> RightSide { get; set; }
+        public List<SyntaxTreeElement> RightSide { get; private set; }
 
         /// <summary>
         /// Constuctor of the grammar rule.
@@ -28,6 +28,17 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
         public GrammarRule()
         {
             RightSide = new List<SyntaxTreeElement>();
+        }
+
+        /// <summary>
+        /// Constuctor of the grammar rule.
+        /// </summary>
+        /// <param name="leftside">The left side of the rule</param>
+        /// <param name="rightside">The right side of the rule</param>
+        public GrammarRule(SyntaxTreeNonterminal leftside, List<SyntaxTreeElement> rightside)
+        {
+            LeftSide = leftside;
+            RightSide = rightside;
         }
 
         /// <summary>

@@ -43,7 +43,7 @@ namespace Azurite.SyntaxAnalysis
         /// </summary>
         public SyntaxAnalysis()
         {
-            for (int i = 0; i < 3; ++i)
+            /*for (int i = 0; i < 3; ++i)
             {
                 parsingRules.Add(new GrammarRule());
             }
@@ -59,7 +59,7 @@ namespace Azurite.SyntaxAnalysis
             parsingRules[2].LeftSide = new SyntaxTreeNonterminal("B");
             parsingRules[2].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
 
-            parsingTable = SLR1ParseTableFactory.BuildParseTable(parsingRules);
+            parsingTable = SLR1ParseTableFactory.BuildParseTable(parsingRules);*/
         }
 
         /// <summary>

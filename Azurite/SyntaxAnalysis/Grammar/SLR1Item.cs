@@ -2,7 +2,7 @@
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System;
 
-namespace Azurite.SyntaxAnalysis.ParseTable
+namespace Azurite.SyntaxAnalysis.Grammar
 {
 
     /// <summary>
