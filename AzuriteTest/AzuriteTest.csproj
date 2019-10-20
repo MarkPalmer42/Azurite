@@ -55,7 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaAnalysis\FirstSetCalculation_UT.cs" />
     <Compile Include="SyntaAnalysis\FollowSetCalculation_UT.cs" />
-    <Compile Include="SyntaAnalysis\Grammar_UT.cs" />
+    <Compile Include="SyntaAnalysis\SyntaxGrammar_UT.cs" />
     <Compile Include="SyntaAnalysis\SLR1ConfigurationBuild_UT.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,37 +1,43 @@
 ﻿
+using Azurite.SyntaxAnalysis;
+using Azurite.SyntaxAnalysis.Grammar;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace AzuriteTest.SyntaAnalysis
 {
+
+    /// <summary>
+    /// Unit test for the construction of the SLR1 configuration.
+    /// </summary>
     [TestClass]
     public class SLR1ConfigurationBuild_UT
     {
 
+        /// <summary>
+        /// Tests whether the configuration construction works correctly.
+        /// </summary>
         [TestMethod]
         public void ConfigurationBuild_1()
         {
-            /*List<GrammarRule> grammar = new List<GrammarRule>();
+            SyntaxGrammar grammar = new SyntaxGrammar();
 
-            for (int i = 0; i < 3; ++i)
-            {
-                grammar.Add(new GrammarRule());
-            }
+            grammar.AddSimpleRule('E', "BB");
+            grammar.AddSimpleRule('B', "cB");
+            grammar.AddSimpleRule('B', "d");
 
-            grammar[0].LeftSide = new SyntaxTreeNonterminal("E");
-            grammar[0].RightSide = new List<SyntaxTreeElement>();
-            grammar[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
-            grammar[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
+            List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
 
-            grammar[1].LeftSide = new SyntaxTreeNonterminal("B");
-            grammar[1].RightSide = new List<SyntaxTreeElement>();
-            grammar[1].RightSide.Add(new SyntaxTreeTerminal(new Token("c", 0)));
-            grammar[1].RightSide.Add(new SyntaxTreeNonterminal("B"));
+            Assert.AreEqual(7, configuration.Count);
 
-            grammar[2].LeftSide = new SyntaxTreeNonterminal("B");
-            grammar[2].RightSide = new List<SyntaxTreeElement>();
-            grammar[2].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
+            Assert.AreEqual("E", configuration[0][1].Rule.LeftSide.Name);
+            Assert.AreEqual(0, configuration[0][1].State);
 
-            List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);*/
+            Assert.AreEqual("B", configuration[0][2].Rule.LeftSide.Name);
+            Assert.AreEqual(0, configuration[0][2].State);
+
+            Assert.AreEqual("B", configuration[0][3].Rule.LeftSide.Name);
+            Assert.AreEqual(0, configuration[0][3].State);
         }
 
     }
