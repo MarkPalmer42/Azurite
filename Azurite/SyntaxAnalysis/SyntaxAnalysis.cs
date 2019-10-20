@@ -1,4 +1,5 @@
-﻿using Azurite.LexicalParser;
+﻿
+using Azurite.LexicalParser;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System.Collections.Generic;
@@ -7,22 +8,44 @@ using Azurite.SyntaxAnalysis.Grammar;
 
 namespace Azurite.SyntaxAnalysis
 {
+
+    /// <summary>
+    /// The syntax analysis class that analyses the input list of tokens
+    /// and constructs a syntax tree based on the input.
+    /// </summary>
     public class SyntaxAnalysis
     {
 
+        /// <summary>
+        /// The table used for parsing.
+        /// </summary>
         ParsingTable parsingTable = new ParsingTable();
 
-        List<ParsingRule> parsingRules = new List<ParsingRule>();
+        /// <summary>
+        /// The rules of the grammar.
+        /// </summary>
+        List<GrammarRule> parsingRules = new List<GrammarRule>();
 
+        /// <summary>
+        /// The follow set that contains all subsequent terminal symbol of
+        /// a nontermianl symbol. Calculated for all nonterminals.
+        /// </summary>
         List<TerminalList> follows = new List<TerminalList>();
 
+        /// <summary>
+        /// The first set that contains all the terminals that can be the
+        /// beginning of a nonterminal symbol. Calculated for all nonterminals.
+        /// </summary>
         List<TerminalList> firsts = new List<TerminalList>();
 
+        /// <summary>
+        /// Constructs the SyntaxAnalysis class.
+        /// </summary>
         public SyntaxAnalysis()
         {
             for (int i = 0; i < 3; ++i)
             {
-                parsingRules.Add(new ParsingRule());
+                parsingRules.Add(new GrammarRule());
             }
 
             parsingRules[0].LeftSide = new SyntaxTreeNonterminal("S'");
@@ -36,9 +59,14 @@ namespace Azurite.SyntaxAnalysis
             parsingRules[2].LeftSide = new SyntaxTreeNonterminal("B");
             parsingRules[2].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
 
-            parsingTable = ParseTableFactory.BuildParseTable(parsingRules);
+            parsingTable = SLR1ParseTableFactory.BuildParseTable(parsingRules);
         }
 
+        /// <summary>
+        /// Analyses the syntax of the given list of tokens and constructs a Syntax Tree.
+        /// </summary>
+        /// <param name="tokens">The list of tokens</param>
+        /// <returns>The syntax tree generated</returns>
         public SyntaxTreeElement AnalyzeSyntax(List<Token> tokens)
         {
             int currentRow = 0;
@@ -46,9 +74,9 @@ namespace Azurite.SyntaxAnalysis
             int index = 0;
             bool accepted = false;
 
-            Stack<ParsingStack> elemStack = new Stack<ParsingStack>();
+            Stack<ParsingStackElement> elemStack = new Stack<ParsingStackElement>();
 
-            elemStack.Push(new ParsingStack(null, 0));
+            elemStack.Push(new ParsingStackElement(null, 0));
 
             tokens.Add(new Token("$", 0));
 
@@ -62,13 +90,13 @@ namespace Azurite.SyntaxAnalysis
 
                 if (element.ElementType == ParsingTableElementType.shift)
                 {
-                    elemStack.Push(new ParsingStack(stt, element.Value));
+                    elemStack.Push(new ParsingStackElement(stt, element.Value));
                     currentRow = element.Value;
                     ++index;
                 }
                 else if (element.ElementType == ParsingTableElementType.reduce)
                 {
-                    ParsingRule rule = parsingRules[element.Value];
+                    GrammarRule rule = parsingRules[element.Value];
 
                     SyntaxTreeNonterminal nt = new SyntaxTreeNonterminal(rule.LeftSide.Name);
 
@@ -97,7 +125,7 @@ namespace Azurite.SyntaxAnalysis
 
                     currentRow = parsingTable.parsingTable[currentRow][ruleLocation].Value;
 
-                    elemStack.Push(new ParsingStack(nt, currentRow));
+                    elemStack.Push(new ParsingStackElement(nt, currentRow));
                 }
                 else if (element.ElementType == ParsingTableElementType.accept)
                 {

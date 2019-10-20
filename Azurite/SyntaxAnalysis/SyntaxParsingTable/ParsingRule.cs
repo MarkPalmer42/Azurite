@@ -1,27 +1,43 @@
-﻿using Azurite.SyntaxAnalysis.SyntaxTree;
+﻿
+using Azurite.SyntaxAnalysis.SyntaxTree;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 {
-    public class ParsingRule : IComparable
+
+    /// <summary>
+    /// Represents a grammar rule that only has a nonterminal on the left side.
+    /// </summary>
+    public class GrammarRule : IComparable
     {
 
+        /// <summary>
+        /// The left side of the grammar rule.
+        /// </summary>
         public SyntaxTreeNonterminal LeftSide { get; set; }
 
+        /// <summary>
+        /// The right side of the grammar rule. A list of terminals and nonterminals.
+        /// </summary>
         public List<SyntaxTreeElement> RightSide { get; set; }
 
-        public ParsingRule()
+        /// <summary>
+        /// Constuctor of the grammar rule.
+        /// </summary>
+        public GrammarRule()
         {
             RightSide = new List<SyntaxTreeElement>();
         }
 
+        /// <summary>
+        /// Compares two grammar rules.
+        /// </summary>
+        /// <param name="obj">The obj to compare to</param>
+        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect obj type</returns>
         public int CompareTo(object obj)
         {
-            ParsingRule s = obj as ParsingRule;
+            GrammarRule s = obj as GrammarRule;
 
             if (null != s)
             {

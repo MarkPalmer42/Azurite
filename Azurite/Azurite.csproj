@@ -56,8 +56,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxAnalysis\FirstFollowFactory.cs" />
-    <Compile Include="SyntaxAnalysis\Grammar\ParseState.cs" />
-    <Compile Include="SyntaxAnalysis\Grammar\RuleSet.cs" />
+    <Compile Include="SyntaxAnalysis\Grammar\SLR1Item.cs" />
     <Compile Include="SyntaxAnalysis\Grammar\TerminalList.cs" />
     <Compile Include="SyntaxAnalysis\ParseTableFactory.cs" />
     <Compile Include="SyntaxAnalysis\ParsingStack.cs" />
