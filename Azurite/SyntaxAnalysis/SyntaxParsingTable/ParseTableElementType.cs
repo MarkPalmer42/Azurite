@@ -2,7 +2,7 @@
 namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 {
 
-    enum ParsingTableElementType
+    public enum ParsingTableElementType
     {
         error,
         shift,

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<azurite>
+	<syntax>
+		<nonterminals>
+			<nonterminal>S</nonterminal>
+			<nonterminal>B</nonterminal>
+		</nonterminals>
+		<rules>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">S</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="nonterminal">B</symbol>
+					<symbol type="nonterminal">B</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">B</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="id" casesensitive="true">c</terminal>
+					</symbol>
+					<symbol type="nonterminal">B</symbol>
+				</rightside>
+			</rule>
+			<rule>
+				<leftside>
+					<symbol type="nonterminal">B</symbol>
+				</leftside>
+				<rightside>
+					<symbol type="terminal">
+						<terminal type="id" casesensitive="true">d</terminal>
+					</symbol>
+				</rightside>
+			</rule>
+		</rules>
+	</syntax>
+</azurite>

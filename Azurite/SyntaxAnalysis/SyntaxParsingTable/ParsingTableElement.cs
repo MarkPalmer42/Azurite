@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 {
-    class ParsingTableElement
+    public class ParsingTableElement
     {
 
         public ParsingTableElementType ElementType { get; private set; }

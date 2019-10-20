@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 {
-    class ParsingTable
+    public class ParsingTable
     {
 
         public List<SyntaxTreeElement> parsingTableHeader { get; set; }
