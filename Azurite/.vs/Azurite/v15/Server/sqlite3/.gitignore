@@ -1,1 +1,3 @@
 *.lock
+/storage.ide
+/storage.ide-wal
