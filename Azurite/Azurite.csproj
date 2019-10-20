@@ -55,6 +55,7 @@
     <Compile Include="LexicalParser\XMLParserReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxAnalysis\ExtremalToken.cs" />
     <Compile Include="SyntaxAnalysis\FirstFollowFactory.cs" />
     <Compile Include="SyntaxAnalysis\Grammar\SLR1Item.cs" />
     <Compile Include="SyntaxAnalysis\Grammar\TerminalList.cs" />

@@ -20,11 +20,28 @@ namespace Azurite.SyntaxAnalysis.Grammar
         public List<GrammarRule> ProductionRules { get; private set; }
 
         /// <summary>
+        /// List of nonterminals in the grammar.
+        /// </summary>
+        public List<SyntaxTreeNonterminal> Nonterminals { get; private set; }
+
+        /// <summary>
+        /// List of terminals in the grammar.
+        /// </summary>
+        public List<SyntaxTreeTerminal> Terminals { get; private set; }
+
+        /// <summary>
+        /// True if the zeroth state exists, false otherwise.
+        /// </summary>
+        private bool zerothStateAdded = false;
+
+        /// <summary>
         /// Construction of the grammar object.
         /// </summary>
         public SyntaxGrammar()
         {
             ProductionRules = new List<GrammarRule>();
+            Nonterminals = new List<SyntaxTreeNonterminal>();
+            Terminals = new List<SyntaxTreeTerminal>();
         }
 
         /// <summary>
@@ -36,7 +53,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
         /// <param name="rightside">Right side of the rule</param>
         public void AddSimpleRule(char leftside, string rightside)
         {
-            if (!Char.IsLetter(leftside) || !rightside.All(x => Char.IsLetter(x)))
+            if (!Char.IsLetter(leftside) || !Char.IsUpper(leftside))
             {
                 throw new Exception("Cannot create grammar rule with the given input.");
             }
@@ -57,7 +74,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
                 }
             }
 
-            ProductionRules.Add(new GrammarRule(left, right));
+            AddRule(new GrammarRule(left, right));
         }
 
         /// <summary>
@@ -72,6 +89,9 @@ namespace Azurite.SyntaxAnalysis.Grammar
             }
 
             ProductionRules.Add(rule);
+
+            AddToNonTerminals(rule.LeftSide);
+            AddRightSideToLists(rule.RightSide);
         }
 
         /// <summary>
@@ -109,6 +129,74 @@ namespace Azurite.SyntaxAnalysis.Grammar
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Adds a Nonterminal to the list if it is not added already.
+        /// </summary>
+        /// <param name="nt">The nonterminal to be added</param>
+        private void AddToNonTerminals(SyntaxTreeNonterminal nt)
+        {
+            if (-1 == Nonterminals.FindIndex(x => x.CompareTo(nt) == 0))
+            {
+                Nonterminals.Add(nt);
+            }
+        }
+
+        /// <summary>
+        /// Adds a list of terminals and nonterminals to the internal lists
+        /// if they are not added already.
+        /// </summary>
+        /// <param name="rhs">List of syntax tree elements.</param>
+        private void AddRightSideToLists(List<SyntaxTreeElement> rhs)
+        {
+            foreach (var r in rhs)
+            {
+                SyntaxTreeNonterminal nt = r as SyntaxTreeNonterminal;
+                SyntaxTreeTerminal t = r as SyntaxTreeTerminal;
+
+                if (null != nt)
+                {
+                    AddToNonTerminals(nt);
+                }
+                else if (null != t)
+                {
+                    if (-1 == Terminals.FindIndex(x => x.CompareTo(t) == 0))
+                    {
+                        Terminals.Add(t);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Cannot add invalid element type to list.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a zeroth state to the grammar production rules.
+        /// </summary>
+        public void AddZerothState()
+        {
+            if (!zerothStateAdded)
+            {
+                int i = 0;
+                SyntaxTreeNonterminal nt = null;
+
+                do
+                {
+                    nt = new SyntaxTreeNonterminal("ZERO" + i.ToString());
+                }
+                while (-1 != ProductionRules.FindIndex(x => x.LeftSide.CompareTo(nt) == 0));
+
+                List<SyntaxTreeElement> elements = new List<SyntaxTreeElement>();
+
+                elements.Add(ProductionRules[0].LeftSide);
+
+                ProductionRules.Insert(0, new GrammarRule(nt, elements));
+
+                zerothStateAdded = true;
+            }
         }
 
     }

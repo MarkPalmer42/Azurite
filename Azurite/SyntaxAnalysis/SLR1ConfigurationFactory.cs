@@ -21,15 +21,8 @@ namespace Azurite.SyntaxAnalysis
         public static List<List<SLR1Item>> CreateConfiguration(SyntaxGrammar grammar)
         {
             List<List<SLR1Item>> parseStates = new List<List<SLR1Item>>();
-            
-            SyntaxTreeNonterminal leftside = new SyntaxTreeNonterminal("ZEROETHSTATE");
 
-            List<SyntaxTreeElement> rightside = new List<SyntaxTreeElement>();
-            rightside.Add(grammar.ProductionRules[0].LeftSide);
-
-            GrammarRule rule = new GrammarRule(leftside, rightside);
-
-            SLR1Item startState = new SLR1Item(rule, 0);
+            SLR1Item startState = new SLR1Item(grammar.ProductionRules[0], 0);
 
             RecursiveConfigBuild(grammar, ref parseStates, startState);
 

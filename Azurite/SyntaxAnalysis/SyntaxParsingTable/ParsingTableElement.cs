@@ -12,7 +12,7 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
         /// <summary>
         /// The type of the cell.
         /// </summary>
-        public ParsingTableElementType ElementType { get; private set; }
+        public ParsingTableElementType ElementType { get; set; }
 
         /// <summary>
         /// The value belonging to the cell.
