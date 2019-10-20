@@ -29,6 +29,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
         public TerminalList(SyntaxTreeNonterminal nonTerminal)
         {
             NonTerminal = nonTerminal;
+            Terminals = new List<SyntaxTreeTerminal>();
         }
 
     }
