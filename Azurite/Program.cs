@@ -4,11 +4,32 @@ using Azurite.SyntaxAnalysis;
 using System;
 using System.Collections.Generic;
 using Azurite.LexicalParser;
+using Azurite.SyntaxAnalysis.SyntaxTree;
 
 namespace Azurite
 {
     class Program
     {
+
+        static void WriteSyntaxTree(SyntaxTreeElement elem, string padding = "")
+        {
+            SyntaxTreeNonterminal nt = elem as SyntaxTreeNonterminal;
+            SyntaxTreeTerminal t = elem as SyntaxTreeTerminal;
+
+            if (null != nt)
+            {
+                Console.WriteLine(padding + nt.Name);
+
+                foreach (var c in nt.Children)
+                {
+                    WriteSyntaxTree(c, padding + "  ");
+                }
+            }
+            else if (null != t)
+            {
+                Console.WriteLine(padding + t.SyntaxToken.Text);
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -26,7 +47,7 @@ namespace Azurite
 
                 SyntaxAnalyzer syntaxAnalysis = new SyntaxAnalyzer(grammar);
 
-                string input = "a*a+a";
+                string input = "a*a+a*(a*a+(a))";
 
                 List<Token> tokens = new List<Token>();
 
@@ -36,6 +57,8 @@ namespace Azurite
                 }
 
                 var syntaxtree = syntaxAnalysis.AnalyzeSyntax(tokens);
+
+                WriteSyntaxTree(syntaxtree);
             }
             catch (Exception e)
             {

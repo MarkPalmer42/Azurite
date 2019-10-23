@@ -120,7 +120,14 @@ namespace Azurite.SyntaxAnalysis
             return followSet;
         }
 
-
+        /// <summary>
+        /// Recursively calculates the follows set of the given grammar.
+        /// </summary>
+        /// <param name="follow">The follow set to be calculated</param>
+        /// <param name="grammar">The input grammar</param>
+        /// <param name="first">The first set</param>
+        /// <param name="nt">The currently checked nonterminal</param>
+        /// <returns>The currently generated follow set</returns>
         private static TerminalList RecursiveCalculateFollow(ref List<TerminalList> follow, SyntaxGrammar grammar, List<TerminalList> first, SyntaxTreeNonterminal nt)
         {
             var tList = follow.Find(x => x.NonTerminal.CompareTo(nt) == 0);
