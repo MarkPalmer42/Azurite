@@ -1,71 +1,41 @@
 ﻿
-using Azurite.LexicalParser;
-using Azurite.SyntaxAnalysis.SyntaxTree;
+using Azurite.SyntaxAnalysis.Grammar;
+using Azurite.SyntaxAnalysis;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using Azurite.LexicalParser;
 
 namespace Azurite
 {
     class Program
     {
 
-        static void WriteSyntaxTreeElement(SyntaxTreeElement element, string padding)
-        {
-            SyntaxTreeNonterminal nt = element as SyntaxTreeNonterminal;
-            SyntaxTreeTerminal t = element as SyntaxTreeTerminal;
-
-            if (null != nt)
-            {
-                Console.WriteLine(padding + "NT " + nt.Name);
-
-                padding += "\t";
-
-                foreach (var c in nt.Children)
-                {
-                    WriteSyntaxTreeElement(c, padding);
-                }
-            }
-            else if (null != t)
-            {
-                Console.WriteLine(padding + "T " + t.SyntaxToken.TokenTypeName + " " + t.SyntaxToken.Text);
-            }
-            else
-            {
-                throw new Exception("Invalid element in syntax tree.");
-            }
-        }
-
         static void Main(string[] args)
         {
             try
             {
-                /*Parser parser = new Parser("../../lexical_parser_rules.xml", "../../lexical_parser.xsd");
+                SyntaxGrammar grammar = new SyntaxGrammar();
 
-                string exampleProgram = File.ReadAllText("../../example_program.txt");
+                grammar.AddSimpleRule('S', "E");
+                grammar.AddSimpleRule('E', "E+T");
+                grammar.AddSimpleRule('E', "T");
+                grammar.AddSimpleRule('T', "T*F");
+                grammar.AddSimpleRule('T', "F");
+                grammar.AddSimpleRule('F', "E");
+                grammar.AddSimpleRule('F', "a");
 
-                var tokens = parser.Parse(exampleProgram);
+                SyntaxAnalyzer syntaxAnalysis = new SyntaxAnalyzer(grammar);
 
-                foreach (var t in tokens)
+                string input = "a*a+a";
+
+                List<Token> tokens = new List<Token>();
+
+                foreach (var i in input)
                 {
-                    Console.WriteLine("Name: " + t.Text + ", type: " + t.TokenType);
-                }*/
+                    tokens.Add(new Token(i.ToString(), 0));
+                }
 
-                SyntaxAnalysis.SyntaxAnalysis syntaxAnalysis = new SyntaxAnalysis.SyntaxAnalysis();
-
-                /*List<Token> list = new List<Token>();
-
-                list.Add(new Token("a", 0));
-                list.Add(new Token("*", 0));
-                list.Add(new Token("(", 0));
-                list.Add(new Token("a", 0));
-                list.Add(new Token("+", 0));
-                list.Add(new Token("a", 0));
-                list.Add(new Token("*", 0));
-                list.Add(new Token("a", 0));
-                list.Add(new Token(")", 0));
-
-                WriteSyntaxTreeElement(syntaxAnalysis.AnalyzeSyntax(list), "");*/
+                var syntaxtree = syntaxAnalysis.AnalyzeSyntax(tokens);
             }
             catch (Exception e)
             {

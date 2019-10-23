@@ -60,7 +60,6 @@
     <Compile Include="SyntaxAnalysis\Grammar\SLR1Item.cs" />
     <Compile Include="SyntaxAnalysis\Grammar\TerminalList.cs" />
     <Compile Include="SyntaxAnalysis\ParseTableFactory.cs" />
-    <Compile Include="SyntaxAnalysis\ParsingRule.cs" />
     <Compile Include="SyntaxAnalysis\ParsingStack.cs" />
     <Compile Include="SyntaxAnalysis\SLR1ConfigurationFactory.cs" />
     <Compile Include="SyntaxAnalysis\Grammar\SyntaxGrammar.cs" />

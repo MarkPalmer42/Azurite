@@ -3,7 +3,6 @@ using Azurite.LexicalParser;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System.Collections.Generic;
-using System;
 using Azurite.SyntaxAnalysis.Grammar;
 
 namespace Azurite.SyntaxAnalysis
@@ -13,7 +12,7 @@ namespace Azurite.SyntaxAnalysis
     /// The syntax analysis class that analyses the input list of tokens
     /// and constructs a syntax tree based on the input.
     /// </summary>
-    public class SyntaxAnalysis
+    public class SyntaxAnalyzer
     {
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace Azurite.SyntaxAnalysis
         /// <summary>
         /// The rules of the grammar.
         /// </summary>
-        List<GrammarRule> parsingRules = new List<GrammarRule>();
+        SyntaxGrammar parsingRules = new SyntaxGrammar();
 
         /// <summary>
         /// The follow set that contains all subsequent terminal symbol of
@@ -41,25 +40,18 @@ namespace Azurite.SyntaxAnalysis
         /// <summary>
         /// Constructs the SyntaxAnalysis class.
         /// </summary>
-        public SyntaxAnalysis()
+        public SyntaxAnalyzer(SyntaxGrammar grammar)
         {
-            /*for (int i = 0; i < 3; ++i)
-            {
-                parsingRules.Add(new GrammarRule());
-            }
+            grammar.AddZerothState();
 
-            parsingRules[0].LeftSide = new SyntaxTreeNonterminal("S'");
-            parsingRules[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
-            parsingRules[0].RightSide.Add(new SyntaxTreeNonterminal("B"));
+            parsingRules = grammar;
 
-            parsingRules[1].LeftSide = new SyntaxTreeNonterminal("B");
-            parsingRules[1].RightSide.Add(new SyntaxTreeTerminal(new Token("c", 0)));
-            parsingRules[1].RightSide.Add(new SyntaxTreeNonterminal("B"));
+            firsts = FirstFollowFactory.CalculateFirstSet(grammar);
+            follows = FirstFollowFactory.CalculateFollowSet(grammar, firsts);
 
-            parsingRules[2].LeftSide = new SyntaxTreeNonterminal("B");
-            parsingRules[2].RightSide.Add(new SyntaxTreeTerminal(new Token("d", 0)));
+            List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
 
-            parsingTable = SLR1ParseTableFactory.BuildParseTable(parsingRules);*/
+            parsingTable = SLR1ParseTableFactory.BuildParseTable(grammar, configuration, follows);
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace Azurite.SyntaxAnalysis
                 }
                 else if (element.ElementType == ParsingTableElementType.reduce)
                 {
-                    GrammarRule rule = parsingRules[element.Value];
+                    GrammarRule rule = parsingRules.ProductionRules[element.Value];
 
                     SyntaxTreeNonterminal nt = new SyntaxTreeNonterminal(rule.LeftSide.Name);
 
@@ -129,7 +121,7 @@ namespace Azurite.SyntaxAnalysis
                 }
                 else if (element.ElementType == ParsingTableElementType.accept)
                 {
-                    if (elemStack.Count != 2 || elemStack.Peek().Element.CompareTo(parsingRules[1].LeftSide) != 0)
+                    if (elemStack.Count != 2 || elemStack.Peek().Element.CompareTo(parsingRules.ProductionRules[1].LeftSide) != 0)
                     {
                         throw new System.Exception("Syntax error: invalid parsing table.");
                     }
