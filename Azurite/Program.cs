@@ -21,7 +21,7 @@ namespace Azurite
                 grammar.AddSimpleRule('E', "T");
                 grammar.AddSimpleRule('T', "T*F");
                 grammar.AddSimpleRule('T', "F");
-                grammar.AddSimpleRule('F', "E");
+                grammar.AddSimpleRule('F', "(E)");
                 grammar.AddSimpleRule('F', "a");
 
                 SyntaxAnalyzer syntaxAnalysis = new SyntaxAnalyzer(grammar);

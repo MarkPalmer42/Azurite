@@ -4,6 +4,7 @@ using Azurite.SyntaxAnalysis.Grammar;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Azurite.SyntaxAnalysis
 {
@@ -92,63 +93,90 @@ namespace Azurite.SyntaxAnalysis
         {
             List<TerminalList> followSet = new List<TerminalList>();
 
+            followSet.Add(new TerminalList(grammar.ProductionRules[0].LeftSide));
+            followSet[0].Terminals.Add(new SyntaxTreeTerminal(new ExtremalToken()));
+
+            foreach (var nt in grammar.Nonterminals)
+            {
+                bool all = true;
+                int index = 0;
+
+                while(all && index < grammar.ProductionRules.Count)
+                {
+                    if (grammar.ProductionRules[index].LeftSide.CompareTo(nt) == 0)
+                    {
+                        all = grammar.ProductionRules[index].RightSide.Last() is SyntaxTreeTerminal;
+                    }
+
+                    ++index;
+                }
+
+                if (all)
+                {
+                    RecursiveCalculateFollow(ref followSet, grammar, firstSet, nt);
+                }
+            }
+
+            return followSet;
+        }
+
+
+        private static TerminalList RecursiveCalculateFollow(ref List<TerminalList> follow, SyntaxGrammar grammar, List<TerminalList> first, SyntaxTreeNonterminal nt)
+        {
+            var tList = follow.Find(x => x.NonTerminal.CompareTo(nt) == 0);
+            if (null != tList)
+            {
+                return tList;
+            }
+
+            TerminalList termList = new TerminalList(nt);
+            follow.Add(termList);
+
             foreach (var rule in grammar.ProductionRules)
             {
-                if (-1 == followSet.FindIndex(x => x.NonTerminal.CompareTo(rule.LeftSide) == 0))
+                for (int i = 0; i < rule.RightSide.Count; ++i)
                 {
-                    TerminalList termList = new TerminalList(rule.LeftSide);
-                    followSet.Add(termList);
-
-                    foreach(var r in grammar.ProductionRules)
+                    if (rule.RightSide[i].CompareTo(nt) == 0)
                     {
-                        for(int i = 0; i < r.RightSide.Count; ++i)
+                        if (i + 1 == rule.RightSide.Count)
                         {
-                            if (0 == r.RightSide[i].CompareTo(rule.LeftSide))
+                            if (rule.LeftSide.CompareTo(nt) != 0)
                             {
-                                if (i + 1 < r.RightSide.Count)
+                                var fList = RecursiveCalculateFollow(ref follow, grammar, first, rule.LeftSide);
+
+                                foreach (var t in fList.Terminals)
                                 {
-                                    var nt = r.RightSide[i + 1] as SyntaxTreeNonterminal;
-                                    var t = r.RightSide[i + 1] as SyntaxTreeTerminal;
-
-                                    if (null != nt)
-                                    {
-                                        int firstIdx = firstSet.FindIndex(x => x.NonTerminal.CompareTo(nt) == 0);
-
-                                        if (-1 == firstIdx)
-                                        {
-                                            throw new System.Exception("Cannot generate follow set without correct first set.");
-                                        }
-
-                                        foreach (var x in firstSet[firstIdx].Terminals)
-                                        {
-                                            termList.AddTerminal(x);
-                                        }
-                                    }
-                                    else if (null != t)
-                                    {
-                                        termList.AddTerminal(t);
-                                    }
-                                    else
-                                    {
-                                        throw new System.Exception("Cannot calculate follow set based on invalid grammar.");
-                                    }
+                                    termList.AddTerminal(t);
                                 }
-                                else
+                            }
+                        }
+                        else
+                        {
+                            if (rule.RightSide[i + 1] is SyntaxTreeTerminal)
+                            {
+                                termList.AddTerminal(rule.RightSide[i + 1] as SyntaxTreeTerminal);
+                            }
+                            else if (rule.RightSide[i + 1] is SyntaxTreeNonterminal)
+                            {
+                                SyntaxTreeNonterminal syntaxTreeNonterminal = rule.RightSide[i + 1] as SyntaxTreeNonterminal;
+
+                                var firstSet = first.Find(x => x.NonTerminal.CompareTo(syntaxTreeNonterminal) == 0);
+
+                                foreach (var t in firstSet.Terminals)
                                 {
-                                    SyntaxTreeTerminal extremal = new SyntaxTreeTerminal(new ExtremalToken());
-
-                                    termList.AddTerminal(extremal);
+                                    termList.AddTerminal(t);
                                 }
+                            }
+                            else
+                            {
+                                throw new System.Exception("Invalid syntax tree element.");
                             }
                         }
                     }
                 }
             }
 
-            /* Adding an extremal element for the staring rule, it always follow the starting rule. */
-            followSet[0].Terminals.Add(new SyntaxTreeTerminal(new ExtremalToken()));
-
-            return followSet;
+            return termList;
         }
 
     }

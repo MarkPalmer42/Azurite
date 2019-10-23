@@ -4,6 +4,7 @@ using Azurite.SyntaxAnalysis.SyntaxTree;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System.Collections.Generic;
 using Azurite.SyntaxAnalysis.Grammar;
+using System;
 
 namespace Azurite.SyntaxAnalysis
 {
@@ -48,10 +49,12 @@ namespace Azurite.SyntaxAnalysis
 
             firsts = FirstFollowFactory.CalculateFirstSet(grammar);
             follows = FirstFollowFactory.CalculateFollowSet(grammar, firsts);
-
+            
             List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
 
             parsingTable = SLR1ParseTableFactory.BuildParseTable(grammar, configuration, follows);
+
+            
         }
 
         /// <summary>
