@@ -22,7 +22,9 @@ namespace Azurite.SyntaxAnalysis
         {
             List<List<SLR1Item>> parseStates = new List<List<SLR1Item>>();
 
-            SLR1Item startState = new SLR1Item(grammar.ProductionRules[0], 0);
+            List<SLR1Item> startState = new List<SLR1Item>();
+
+            startState.Add(new SLR1Item(grammar.ProductionRules[0], 0));
 
             RecursiveConfigBuild(grammar, ref parseStates, startState);
 
@@ -36,11 +38,11 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="ruleSets">The extended grammar rules</param>
         /// <param name="extendable">The current rule to be extended</param>
         /// <returns>The index of the newly created extended gramar rule set</returns>
-        static int RecursiveConfigBuild(SyntaxGrammar grammar, ref List<List<SLR1Item>> ruleSets, SLR1Item extendable = null)
+        static int RecursiveConfigBuild(SyntaxGrammar grammar, ref List<List<SLR1Item>> ruleSets, List<SLR1Item> extendable = null)
         {
             if (null != extendable)
             {
-                int idx = ruleSets.FindIndex(x => x[0].CompareTo(extendable) == 0);
+                int idx = ruleSets.FindIndex(x => x[0].CompareTo(extendable[0]) == 0);
 
                 if (-1 != idx)
                 {
@@ -49,7 +51,11 @@ namespace Azurite.SyntaxAnalysis
                 else
                 {
                     ruleSets.Add(new List<SLR1Item>());
-                    ruleSets[ruleSets.Count - 1].Add(extendable);
+
+                    foreach (var e in extendable)
+                    {
+                        ruleSets.Last().Add(e);
+                    }
                 }
             }
 
@@ -103,7 +109,19 @@ namespace Azurite.SyntaxAnalysis
 
                 if (null != nextSymbol)
                 {
-                    SLR1Item nextRuleSet = new SLR1Item(s.Rule, s.State + 1);
+                    List<SLR1Item> nextRuleSet = new List<SLR1Item>();
+
+                    foreach (var s2 in ruleSets[currentRuleSet])
+                    {
+                        if (s2.Rule.RightSide.Count > s2.State)
+                        {
+                            if (nextSymbol.CompareTo(s2.Rule.RightSide[s2.State]) == 0)
+                            {
+                                nextRuleSet.Add(new SLR1Item(s2.Rule, s2.State + 1));
+                            }
+                        }
+                    }
+
                     s.Target = RecursiveConfigBuild(grammar, ref ruleSets, nextRuleSet);
                 }
             }

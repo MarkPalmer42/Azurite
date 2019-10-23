@@ -53,8 +53,6 @@ namespace Azurite.SyntaxAnalysis
             List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
 
             parsingTable = SLR1ParseTableFactory.BuildParseTable(grammar, configuration, follows);
-
-            
         }
 
         /// <summary>
