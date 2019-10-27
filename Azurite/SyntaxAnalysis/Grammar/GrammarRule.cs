@@ -52,7 +52,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
 
             if (null != s)
             {
-                if (LeftSide.CompareTo(s.LeftSide) != 0 && RightSide.Count != s.RightSide.Count)
+                if (LeftSide.CompareTo(s.LeftSide) != 0 || RightSide.Count != s.RightSide.Count)
                 {
                     return 1;
                 }
