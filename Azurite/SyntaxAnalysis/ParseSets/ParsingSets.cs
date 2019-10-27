@@ -91,15 +91,15 @@ namespace Azurite.SyntaxAnalysis.ParseSets
                     {
                         if (rule.RightSide[i] is SyntaxTreeNonterminal)
                         {
-                            RecursiveCalculateFirst(grammar, rule.RightSide[i] as SyntaxTreeNonterminal);
-
-                            var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.CompareTo(rule.RightSide[i]) == 0);
-
-                            foreach (var terminal in firstOfDeduced.Terminals)
+                            if (deduction.CompareTo(rule.RightSide[i]) != 0)
                             {
-                                if (-1 == termList.Terminals.FindIndex(x => x.CompareTo(terminal) == 0))
+                                RecursiveCalculateFirst(grammar, rule.RightSide[i] as SyntaxTreeNonterminal);
+
+                                var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.CompareTo(rule.RightSide[i]) == 0);
+
+                                foreach (var terminal in firstOfDeduced.Terminals)
                                 {
-                                    termList.Terminals.Add(terminal);
+                                    termList.AddTerminal(terminal);
                                 }
                             }
                         }
