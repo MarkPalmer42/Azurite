@@ -1,4 +1,4 @@
-﻿
+
 using Azurite.SyntaxAnalysis.Grammar;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using System.Collections.Generic;
@@ -73,9 +73,12 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.CompareTo(rule.LeftSide) == 0)
                 {
-                    if (rule.RightSide[0] is SyntaxTreeTerminal)
+                    for (int i = 0; i < rule.RightSide.Count; ++i)
                     {
-                        termList.Terminals.Add(rule.RightSide[0] as SyntaxTreeTerminal);
+                        if (rule.RightSide[i] is SyntaxTreeTerminal)
+                        {
+                            termList.AddTerminal(rule.RightSide[i] as SyntaxTreeTerminal);
+                        }
                     }
                 }
             }
@@ -84,17 +87,20 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.CompareTo(rule.LeftSide) == 0)
                 {
-                    if (rule.RightSide[0] is SyntaxTreeNonterminal)
+                    for (int i = 0; i < rule.RightSide.Count; ++i)
                     {
-                        RecursiveCalculateFirst(grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
-
-                        var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.CompareTo(rule.RightSide[0]) == 0);
-
-                        foreach(var terminal in firstOfDeduced.Terminals)
+                        if (rule.RightSide[i] is SyntaxTreeNonterminal)
                         {
-                            if (-1 == termList.Terminals.FindIndex(x => x.CompareTo(terminal) == 0))
+                            RecursiveCalculateFirst(grammar, rule.RightSide[i] as SyntaxTreeNonterminal);
+
+                            var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.CompareTo(rule.RightSide[i]) == 0);
+
+                            foreach (var terminal in firstOfDeduced.Terminals)
                             {
-                                termList.Terminals.Add(terminal);
+                                if (-1 == termList.Terminals.FindIndex(x => x.CompareTo(terminal) == 0))
+                                {
+                                    termList.Terminals.Add(terminal);
+                                }
                             }
                         }
                     }
