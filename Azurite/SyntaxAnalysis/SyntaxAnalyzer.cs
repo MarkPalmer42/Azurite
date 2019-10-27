@@ -38,6 +38,26 @@ namespace Azurite.SyntaxAnalysis
         SLR1Configuration slr1Config = null;
 
         /// <summary>
+        /// Constructs the SyntaxAnalysis class based on the given XML file.
+        /// </summary>
+        public SyntaxAnalyzer(string xmlPath, string xsdPath)
+        {
+            XMLSyntaxParserReader reader = new XMLSyntaxParserReader();
+
+            SyntaxGrammar grammar = reader.ReadGrammar(xmlPath, xsdPath);
+
+            grammar.AddZerothState();
+
+            parsingRules = grammar;
+
+            sets = new ParsingSets(grammar);
+
+            slr1Config = new SLR1Configuration(grammar);
+
+            parsingTable = new ParsingTable(grammar, slr1Config, sets.FollowSet);
+        }
+
+        /// <summary>
         /// Constructs the SyntaxAnalysis class.
         /// </summary>
         public SyntaxAnalyzer(SyntaxGrammar grammar)

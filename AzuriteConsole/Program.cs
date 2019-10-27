@@ -35,6 +35,8 @@ namespace Azurite
         {
             try
             {
+                SyntaxAnalyzer analyzer = new SyntaxAnalyzer("../../syntax_analysis_rules.xml", "../../syntax_analysis.xsd");
+
                 SyntaxGrammar grammar = new SyntaxGrammar();
 
                 grammar.AddSimpleRule('S', "E");

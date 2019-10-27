@@ -73,6 +73,7 @@
     <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeFactory.cs" />
     <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeNonterminal.cs" />
     <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeTerminal.cs" />
+    <Compile Include="SyntaxAnalysis\XMLSyntaxParserReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
