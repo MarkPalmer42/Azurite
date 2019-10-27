@@ -39,8 +39,7 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
             }
             else
             {
-                Token t = nt.SyntaxToken;
-                return (t.Text == SyntaxToken.Text && t.TokenType == SyntaxToken.TokenType) ? 0 : 1;
+                return SyntaxToken.CompareTo(nt.SyntaxToken);
             }
         }
 
