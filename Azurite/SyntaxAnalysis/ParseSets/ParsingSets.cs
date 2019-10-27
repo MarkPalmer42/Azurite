@@ -122,23 +122,7 @@ namespace Azurite.SyntaxAnalysis.ParseSets
 
             foreach (var nt in grammar.Nonterminals)
             {
-                bool all = true;
-                int index = 0;
-
-                while(all && index < grammar.ProductionRules.Count)
-                {
-                    if (grammar.ProductionRules[index].LeftSide.CompareTo(nt) == 0)
-                    {
-                        all = grammar.ProductionRules[index].RightSide.Last() is SyntaxTreeTerminal;
-                    }
-
-                    ++index;
-                }
-
-                if (all)
-                {
-                    RecursiveCalculateFollow(grammar, nt);
-                }
+                RecursiveCalculateFollow(grammar, nt);
             }
         }
 
