@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37BFD740-B91E-4991-92F0-F4F59654EB30}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Azurite</RootNamespace>
-    <AssemblyName>Azurite</AssemblyName>
+    <ProjectGuid>{9176B30C-861C-4AD4-8831-6FC953BD9661}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AzuriteConsole</RootNamespace>
+    <AssemblyName>AzuriteConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,37 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LexicalParser\AutomataState.cs" />
-    <Compile Include="LexicalParser\AutomataStateDefinition.cs" />
-    <Compile Include="LexicalParser\GeneralAutomata.cs" />
-    <Compile Include="LexicalParser\IAutomata.cs" />
-    <Compile Include="LexicalParser\Parser.cs" />
-    <Compile Include="LexicalParser\StatedAutomata.cs" />
-    <Compile Include="LexicalParser\StatelessAutomata.cs" />
-    <Compile Include="LexicalParser\StateTransition.cs" />
-    <Compile Include="LexicalParser\Token.cs" />
-    <Compile Include="LexicalParser\XMLParserReader.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SyntaxAnalysis\ExtremalToken.cs" />
-    <Compile Include="SyntaxAnalysis\ParseSets\ParsingSets.cs" />
-    <Compile Include="SyntaxAnalysis\ParseConfiguration\SLR1Item.cs" />
-    <Compile Include="SyntaxAnalysis\ParseSets\TerminalList.cs" />
-    <Compile Include="SyntaxAnalysis\ParsingStackElement.cs" />
-    <Compile Include="SyntaxAnalysis\ParseConfiguration\SLR1Configuration.cs" />
-    <Compile Include="SyntaxAnalysis\Grammar\SyntaxGrammar.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParseTableElementType.cs" />
-    <Compile Include="SyntaxAnalysis\Grammar\GrammarRule.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParsingTable.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxParsingTable\ParsingTableElement.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxAnalyzer.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeElement.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeFactory.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeNonterminal.cs" />
-    <Compile Include="SyntaxAnalysis\SyntaxTree\SyntaxTreeTerminal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Azurite\Azurite.csproj">
+      <Project>{37bfd740-b91e-4991-92f0-f4f59654eb30}</Project>
+      <Name>Azurite</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

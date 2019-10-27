@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azurite", "Azurite.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzuriteTest", "..\AzuriteTest\AzuriteTest.csproj", "{C45D2FA7-3836-4315-808A-6D73379FB1B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzuriteConsole", "..\AzuriteConsole\AzuriteConsole.csproj", "{9176B30C-861C-4AD4-8831-6FC953BD9661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C45D2FA7-3836-4315-808A-6D73379FB1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45D2FA7-3836-4315-808A-6D73379FB1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45D2FA7-3836-4315-808A-6D73379FB1B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9176B30C-861C-4AD4-8831-6FC953BD9661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9176B30C-861C-4AD4-8831-6FC953BD9661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9176B30C-861C-4AD4-8831-6FC953BD9661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9176B30C-861C-4AD4-8831-6FC953BD9661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
