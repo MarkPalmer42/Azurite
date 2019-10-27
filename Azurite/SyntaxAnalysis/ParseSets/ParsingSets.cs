@@ -46,8 +46,6 @@ namespace Azurite.SyntaxAnalysis.ParseSets
         /// <returns>List of first sets</returns>
         private void CalculateFirstSet(SyntaxGrammar grammar)
         {
-            List<SyntaxTreeNonterminal> deduced = new List<SyntaxTreeNonterminal>();
-
             RecursiveCalculateFirst(grammar, grammar.ProductionRules[0].LeftSide);
         }
 
@@ -73,12 +71,9 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.Equals(rule.LeftSide))
                 {
-                    for (int i = 0; i < rule.RightSide.Count; ++i)
+                    if (rule.RightSide[0] is SyntaxTreeTerminal)
                     {
-                        if (rule.RightSide[i] is SyntaxTreeTerminal)
-                        {
-                            termList.AddTerminal(rule.RightSide[i] as SyntaxTreeTerminal);
-                        }
+                        termList.AddTerminal(rule.RightSide[0] as SyntaxTreeTerminal);
                     }
                 }
             }
@@ -87,20 +82,17 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.Equals(rule.LeftSide))
                 {
-                    for (int i = 0; i < rule.RightSide.Count; ++i)
+                    if (rule.RightSide[0] is SyntaxTreeNonterminal)
                     {
-                        if (rule.RightSide[i] is SyntaxTreeNonterminal)
+                        if (!deduction.Equals(rule.RightSide[0]))
                         {
-                            if (!deduction.Equals(rule.RightSide[i]))
+                            RecursiveCalculateFirst(grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
+
+                            var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.Equals(rule.RightSide[0]));
+
+                            foreach (var terminal in firstOfDeduced.Terminals)
                             {
-                                RecursiveCalculateFirst(grammar, rule.RightSide[i] as SyntaxTreeNonterminal);
-
-                                var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.Equals(rule.RightSide[i]));
-
-                                foreach (var terminal in firstOfDeduced.Terminals)
-                                {
-                                    termList.AddTerminal(terminal);
-                                }
+                                termList.AddTerminal(terminal);
                             }
                         }
                     }
