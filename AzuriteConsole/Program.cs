@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Azurite.LexicalParser;
 using Azurite.SyntaxAnalysis.SyntaxTree;
+using System.IO;
 
 namespace Azurite
 {
@@ -35,32 +36,17 @@ namespace Azurite
         {
             try
             {
+                Parser lexicalParser = new Parser("../../lexical_parser_rules.xml", "../../lexical_parser.xsd");
+
                 SyntaxAnalyzer analyzer = new SyntaxAnalyzer("../../syntax_analysis_rules.xml", "../../syntax_analysis.xsd");
 
-                SyntaxGrammar grammar = new SyntaxGrammar();
+                string file = File.ReadAllText("../../example_program.txt");
 
-                grammar.AddSimpleRule('S', "E");
-                grammar.AddSimpleRule('E', "E+T");
-                grammar.AddSimpleRule('E', "T");
-                grammar.AddSimpleRule('T', "T*F");
-                grammar.AddSimpleRule('T', "F");
-                grammar.AddSimpleRule('F', "(E)");
-                grammar.AddSimpleRule('F', "a");
+                List<Token> tokens = lexicalParser.Parse(file);
 
-                SyntaxAnalyzer syntaxAnalysis = new SyntaxAnalyzer(grammar);
+                var syntaxTree = analyzer.AnalyzeSyntax(tokens);
 
-                string input = "a*a+a*(a*a+(a))";
-
-                List<Token> tokens = new List<Token>();
-
-                foreach (var i in input)
-                {
-                    tokens.Add(new Token(i.ToString(), 0));
-                }
-
-                var syntaxtree = syntaxAnalysis.AnalyzeSyntax(tokens);
-
-                WriteSyntaxTree(syntaxtree);
+                WriteSyntaxTree(syntaxTree);
             }
             catch (Exception e)
             {
