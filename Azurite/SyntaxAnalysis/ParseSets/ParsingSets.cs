@@ -1,19 +1,42 @@
 ﻿
-using Azurite.LexicalParser;
 using Azurite.SyntaxAnalysis.Grammar;
-using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Azurite.SyntaxAnalysis
+namespace Azurite.SyntaxAnalysis.ParseSets
 {
 
     /// <summary>
-    /// Factory to generate first and follow sets based on the input grammar.
+    /// A class to generate and store first and follow sets used for the parsing process.
     /// </summary>
-    public class FirstFollowFactory
+    public class ParsingSets
     {
+
+        /// <summary>
+        /// The first set that contains all the terminals that can be the
+        /// beginning of a nonterminal symbol. Calculated for all nonterminals.
+        /// </summary>
+        public List<TerminalList> FirstSet { get; private set; }
+
+        /// <summary>
+        /// The follow set that contains all subsequent terminal symbol of
+        /// a nontermianl symbol. Calculated for all nonterminals.
+        /// </summary>
+        public List<TerminalList> FollowSet { get; private set; }
+
+        /// <summary>
+        /// Constructs the parsing sets.
+        /// </summary>
+        /// <param name="grammar">The input grammar</param>
+        public ParsingSets(SyntaxGrammar grammar)
+        {
+            FirstSet = new List<TerminalList>();
+            FollowSet = new List<TerminalList>();
+
+            CalculateFirstSet(grammar);
+            CalculateFollowSet(grammar);
+        }
 
         /// <summary>
         /// This method calculates the first sets for all nonterminal symbol
@@ -21,14 +44,11 @@ namespace Azurite.SyntaxAnalysis
         /// </summary>
         /// <param name="grammar">The grammar</param>
         /// <returns>List of first sets</returns>
-        public static List<TerminalList> CalculateFirstSet(SyntaxGrammar grammar)
+        private void CalculateFirstSet(SyntaxGrammar grammar)
         {
-            List<TerminalList> firstSet = new List<TerminalList>();
             List<SyntaxTreeNonterminal> deduced = new List<SyntaxTreeNonterminal>();
 
-            RecursiveCalculateFirst(ref firstSet, grammar, grammar.ProductionRules[0].LeftSide);
-
-            return firstSet;
+            RecursiveCalculateFirst(grammar, grammar.ProductionRules[0].LeftSide);
         }
 
         /// <summary>
@@ -38,16 +58,16 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="first">The output set of first terminals</param>
         /// <param name="grammar">The grammar input</param>
         /// <param name="deduction">The currently deduced grammar rule</param>
-        private static void RecursiveCalculateFirst(ref List<TerminalList> first, SyntaxGrammar grammar, SyntaxTreeNonterminal deduction)
+        private void RecursiveCalculateFirst(SyntaxGrammar grammar, SyntaxTreeNonterminal deduction)
         {
-            if (-1 != first.FindIndex(x => x.NonTerminal.CompareTo(deduction) == 0))
+            if (-1 != FirstSet.FindIndex(x => x.NonTerminal.CompareTo(deduction) == 0))
             {
                 return;
             }
 
             TerminalList termList = new TerminalList(deduction);
 
-            first.Add(termList);
+            FirstSet.Add(termList);
 
             foreach (var rule in grammar.ProductionRules)
             {
@@ -66,9 +86,9 @@ namespace Azurite.SyntaxAnalysis
                 {
                     if (rule.RightSide[0] is SyntaxTreeNonterminal)
                     {
-                        RecursiveCalculateFirst(ref first, grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
+                        RecursiveCalculateFirst(grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
 
-                        var firstOfDeduced = first.Find(x => x.NonTerminal.CompareTo(rule.RightSide[0]) == 0);
+                        var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.CompareTo(rule.RightSide[0]) == 0);
 
                         foreach(var terminal in firstOfDeduced.Terminals)
                         {
@@ -89,12 +109,10 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="grammar">The grammar</param>
         /// <param name="firstSet">The first set</param>
         /// <returns>The follow set</returns>
-        public static List<TerminalList> CalculateFollowSet(SyntaxGrammar grammar, List<TerminalList> firstSet)
+        private void CalculateFollowSet(SyntaxGrammar grammar)
         {
-            List<TerminalList> followSet = new List<TerminalList>();
-
-            followSet.Add(new TerminalList(grammar.ProductionRules[0].LeftSide));
-            followSet[0].Terminals.Add(new SyntaxTreeTerminal(new ExtremalToken()));
+            FollowSet.Add(new TerminalList(grammar.ProductionRules[0].LeftSide));
+            FollowSet[0].Terminals.Add(new SyntaxTreeTerminal(new ExtremalToken()));
 
             foreach (var nt in grammar.Nonterminals)
             {
@@ -113,11 +131,9 @@ namespace Azurite.SyntaxAnalysis
 
                 if (all)
                 {
-                    RecursiveCalculateFollow(ref followSet, grammar, firstSet, nt);
+                    RecursiveCalculateFollow(grammar, nt);
                 }
             }
-
-            return followSet;
         }
 
         /// <summary>
@@ -128,16 +144,17 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="first">The first set</param>
         /// <param name="nt">The currently checked nonterminal</param>
         /// <returns>The currently generated follow set</returns>
-        private static TerminalList RecursiveCalculateFollow(ref List<TerminalList> follow, SyntaxGrammar grammar, List<TerminalList> first, SyntaxTreeNonterminal nt)
+        private TerminalList RecursiveCalculateFollow(SyntaxGrammar grammar, SyntaxTreeNonterminal nt)
         {
-            var tList = follow.Find(x => x.NonTerminal.CompareTo(nt) == 0);
+            var tList = FollowSet.Find(x => x.NonTerminal.CompareTo(nt) == 0);
+
             if (null != tList)
             {
                 return tList;
             }
 
             TerminalList termList = new TerminalList(nt);
-            follow.Add(termList);
+            FollowSet.Add(termList);
 
             foreach (var rule in grammar.ProductionRules)
             {
@@ -149,7 +166,7 @@ namespace Azurite.SyntaxAnalysis
                         {
                             if (rule.LeftSide.CompareTo(nt) != 0)
                             {
-                                var fList = RecursiveCalculateFollow(ref follow, grammar, first, rule.LeftSide);
+                                var fList = RecursiveCalculateFollow(grammar, rule.LeftSide);
 
                                 foreach (var t in fList.Terminals)
                                 {
@@ -167,7 +184,7 @@ namespace Azurite.SyntaxAnalysis
                             {
                                 SyntaxTreeNonterminal syntaxTreeNonterminal = rule.RightSide[i + 1] as SyntaxTreeNonterminal;
 
-                                var firstSet = first.Find(x => x.NonTerminal.CompareTo(syntaxTreeNonterminal) == 0);
+                                var firstSet = FirstSet.Find(x => x.NonTerminal.CompareTo(syntaxTreeNonterminal) == 0);
 
                                 foreach (var t in firstSet.Terminals)
                                 {
@@ -176,7 +193,7 @@ namespace Azurite.SyntaxAnalysis
                             }
                             else
                             {
-                                throw new System.Exception("Invalid syntax tree element.");
+                                throw new System.Exception("Invalid syntax tree element."); 
                             }
                         }
                     }

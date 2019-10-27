@@ -1,8 +1,8 @@
 ﻿
-using Azurite.SyntaxAnalysis.SyntaxParsingTable;
+using Azurite.SyntaxAnalysis.Grammar;
 using System;
 
-namespace Azurite.SyntaxAnalysis.Grammar
+namespace Azurite.SyntaxAnalysis.ParseConfiguration
 {
 
     /// <summary>

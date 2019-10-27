@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Azurite.SyntaxAnalysis.SyntaxTree;
 
-namespace Azurite.SyntaxAnalysis.Grammar
+namespace Azurite.SyntaxAnalysis.ParseSets
 {
 
     /// <summary>

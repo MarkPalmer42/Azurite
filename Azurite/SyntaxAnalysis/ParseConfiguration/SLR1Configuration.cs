@@ -1,34 +1,36 @@
 ﻿
 using Azurite.SyntaxAnalysis.Grammar;
-using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using Azurite.SyntaxAnalysis.SyntaxTree;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Azurite.SyntaxAnalysis
+namespace Azurite.SyntaxAnalysis.ParseConfiguration
 {
-    public static class SLR1ConfigurationFactory
+
+    /// <summary>
+    /// Generates the SLR1 configuration sets and stores them.
+    /// </summary>
+    public class SLR1Configuration
     {
+
+        /// <summary>
+        /// Contains all SLR1 configuration sets.
+        /// </summary>
+        public List<List<SLR1Item>> Config { get; private set; }
 
         /// <summary>
         /// Creates an SLR1 configuration based on the given grammar.
         /// </summary>
         /// <param name="grammar">The grammar</param>
-        /// <returns>The configuration</returns>
-        public static List<List<SLR1Item>> CreateConfiguration(SyntaxGrammar grammar)
+        public SLR1Configuration(SyntaxGrammar grammar)
         {
-            List<List<SLR1Item>> parseStates = new List<List<SLR1Item>>();
+            Config = new List<List<SLR1Item>>();
 
             List<SLR1Item> startState = new List<SLR1Item>();
 
             startState.Add(new SLR1Item(grammar.ProductionRules[0], 0));
 
-            RecursiveConfigBuild(grammar, ref parseStates, startState);
-
-            return parseStates;
+            RecursiveConfigBuild(grammar, startState);
         }
 
         /// <summary>
@@ -38,11 +40,11 @@ namespace Azurite.SyntaxAnalysis
         /// <param name="ruleSets">The extended grammar rules</param>
         /// <param name="extendable">The current rule to be extended</param>
         /// <returns>The index of the newly created extended gramar rule set</returns>
-        static int RecursiveConfigBuild(SyntaxGrammar grammar, ref List<List<SLR1Item>> ruleSets, List<SLR1Item> extendable = null)
+        int RecursiveConfigBuild(SyntaxGrammar grammar, List<SLR1Item> extendable = null)
         {
             if (null != extendable)
             {
-                int idx = ruleSets.FindIndex(x => x[0].CompareTo(extendable[0]) == 0);
+                int idx = Config.FindIndex(x => x[0].CompareTo(extendable[0]) == 0);
 
                 if (-1 != idx)
                 {
@@ -50,22 +52,22 @@ namespace Azurite.SyntaxAnalysis
                 }
                 else
                 {
-                    ruleSets.Add(new List<SLR1Item>());
+                    Config.Add(new List<SLR1Item>());
 
                     foreach (var e in extendable)
                     {
-                        ruleSets.Last().Add(e);
+                        Config.Last().Add(e);
                     }
                 }
             }
 
-            int currentRuleSet = ruleSets.Count - 1;
+            int currentRuleSet = Config.Count - 1;
 
             int currentRuleIndex = 0;
 
-            while (currentRuleIndex < ruleSets[currentRuleSet].Count)
+            while (currentRuleIndex < Config[currentRuleSet].Count)
             {
-                var currentRule = ruleSets[currentRuleSet][currentRuleIndex];
+                var currentRule = Config[currentRuleSet][currentRuleIndex];
 
                 SyntaxTreeElement nextSymbol = null;
 
@@ -84,11 +86,11 @@ namespace Azurite.SyntaxAnalysis
                             {
                                 SLR1Item extendedRuleSet = new SLR1Item(rule, 0);
 
-                                int idx = ruleSets[currentRuleSet].FindIndex(x => x.CompareTo(extendedRuleSet) == 0);
+                                int idx = Config[currentRuleSet].FindIndex(x => x.CompareTo(extendedRuleSet) == 0);
 
                                 if (-1 == idx)
                                 {
-                                    ruleSets[currentRuleSet].Add(extendedRuleSet);
+                                    Config[currentRuleSet].Add(extendedRuleSet);
                                 }
                             }
                         }
@@ -98,7 +100,7 @@ namespace Azurite.SyntaxAnalysis
                 ++currentRuleIndex;
             }
 
-            foreach (var s in ruleSets[currentRuleSet])
+            foreach (var s in Config[currentRuleSet])
             {
                 SyntaxTreeElement nextSymbol = null;
 
@@ -111,7 +113,7 @@ namespace Azurite.SyntaxAnalysis
                 {
                     List<SLR1Item> nextRuleSet = new List<SLR1Item>();
 
-                    foreach (var s2 in ruleSets[currentRuleSet])
+                    foreach (var s2 in Config[currentRuleSet])
                     {
                         if (s2.Rule.RightSide.Count > s2.State)
                         {
@@ -122,7 +124,7 @@ namespace Azurite.SyntaxAnalysis
                         }
                     }
 
-                    s.Target = RecursiveConfigBuild(grammar, ref ruleSets, nextRuleSet);
+                    s.Target = RecursiveConfigBuild(grammar, nextRuleSet);
                 }
             }
 

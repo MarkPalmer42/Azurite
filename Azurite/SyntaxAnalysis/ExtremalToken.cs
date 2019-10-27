@@ -1,9 +1,5 @@
-﻿using Azurite.LexicalParser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Azurite.LexicalParser;
 
 namespace Azurite.SyntaxAnalysis
 {

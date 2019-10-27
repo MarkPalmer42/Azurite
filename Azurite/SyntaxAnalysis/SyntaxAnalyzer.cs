@@ -4,7 +4,8 @@ using Azurite.SyntaxAnalysis.SyntaxTree;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using System.Collections.Generic;
 using Azurite.SyntaxAnalysis.Grammar;
-using System;
+using Azurite.SyntaxAnalysis.ParseSets;
+using Azurite.SyntaxAnalysis.ParseConfiguration;
 
 namespace Azurite.SyntaxAnalysis
 {
@@ -19,7 +20,7 @@ namespace Azurite.SyntaxAnalysis
         /// <summary>
         /// The table used for parsing.
         /// </summary>
-        ParsingTable parsingTable = new ParsingTable();
+        ParsingTable parsingTable = null;
 
         /// <summary>
         /// The rules of the grammar.
@@ -27,16 +28,14 @@ namespace Azurite.SyntaxAnalysis
         SyntaxGrammar parsingRules = new SyntaxGrammar();
 
         /// <summary>
-        /// The follow set that contains all subsequent terminal symbol of
-        /// a nontermianl symbol. Calculated for all nonterminals.
+        /// Generates and stores the first and follow sets.
         /// </summary>
-        List<TerminalList> follows = new List<TerminalList>();
+        ParsingSets sets = null;
 
         /// <summary>
-        /// The first set that contains all the terminals that can be the
-        /// beginning of a nonterminal symbol. Calculated for all nonterminals.
+        /// Contains the SLR1 configuration sets.
         /// </summary>
-        List<TerminalList> firsts = new List<TerminalList>();
+        SLR1Configuration slr1Config = null;
 
         /// <summary>
         /// Constructs the SyntaxAnalysis class.
@@ -47,12 +46,11 @@ namespace Azurite.SyntaxAnalysis
 
             parsingRules = grammar;
 
-            firsts = FirstFollowFactory.CalculateFirstSet(grammar);
-            follows = FirstFollowFactory.CalculateFollowSet(grammar, firsts);
-            
-            List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
+            sets = new ParsingSets(grammar);
 
-            parsingTable = SLR1ParseTableFactory.BuildParseTable(grammar, configuration, follows);
+            slr1Config = new SLR1Configuration(grammar);
+
+            parsingTable = new ParsingTable(grammar, slr1Config, sets.FollowSet);
         }
 
         /// <summary>
@@ -77,9 +75,9 @@ namespace Azurite.SyntaxAnalysis
             {
                 SyntaxTreeTerminal stt = new SyntaxTreeTerminal(tokens[index]);
 
-                currentColumn = parsingTable.parsingTableHeader.FindIndex(x => x.CompareTo(stt) == 0);
+                currentColumn = parsingTable.Header.FindIndex(x => x.CompareTo(stt) == 0);
 
-                ParsingTableElement element = parsingTable.parsingTable[currentRow][currentColumn];
+                ParsingTableElement element = parsingTable.Table[currentRow][currentColumn];
 
                 if (element.ElementType == ParsingTableElementType.shift)
                 {
@@ -109,14 +107,14 @@ namespace Azurite.SyntaxAnalysis
 
                     currentRow = elemStack.Peek().Value;
 
-                    int ruleLocation = parsingTable.parsingTableHeader.FindIndex(x => x.CompareTo(rule.LeftSide) == 0);
+                    int ruleLocation = parsingTable.Header.FindIndex(x => x.CompareTo(rule.LeftSide) == 0);
 
-                    if (parsingTable.parsingTable[currentRow][ruleLocation].ElementType != ParsingTableElementType.jump)
+                    if (parsingTable.Table[currentRow][ruleLocation].ElementType != ParsingTableElementType.jump)
                     {
                         throw new System.Exception("Syntax error: invalid parsing table.");
                     }
 
-                    currentRow = parsingTable.parsingTable[currentRow][ruleLocation].Value;
+                    currentRow = parsingTable.Table[currentRow][ruleLocation].Value;
 
                     elemStack.Push(new ParsingStackElement(nt, currentRow));
                 }

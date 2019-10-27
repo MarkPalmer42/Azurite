@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Azurite.SyntaxAnalysis;
 using Azurite.SyntaxAnalysis.Grammar;
+using Azurite.SyntaxAnalysis.ParseConfiguration;
+using Azurite.SyntaxAnalysis.ParseSets;
 using Azurite.SyntaxAnalysis.SyntaxParsingTable;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,14 +31,13 @@ namespace AzuriteTest.SyntaAnalysis
 
             grammar.AddZerothState();
 
-            List<TerminalList> firstSet = FirstFollowFactory.CalculateFirstSet(grammar);
-            List<TerminalList> followSet = FirstFollowFactory.CalculateFollowSet(grammar, firstSet);
+            ParsingSets sets = new ParsingSets(grammar);
 
-            List<List<SLR1Item>> configuration = SLR1ConfigurationFactory.CreateConfiguration(grammar);
-            
-            ParsingTable table = SLR1ParseTableFactory.BuildParseTable(grammar, configuration, followSet);
+            SLR1Configuration slr1config = new SLR1Configuration(grammar);
 
-            Assert.AreEqual(7, table.parsingTable.Count);
+            ParsingTable table = new ParsingTable(grammar, slr1config, sets.FirstSet);
+
+            Assert.AreEqual(7, table.Table.Count);
         }
 
     }
