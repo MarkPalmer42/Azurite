@@ -15,6 +15,8 @@ namespace Azurite.LexicalParser
         /// </summary>
         List<IAutomata> automataList;
 
+        public List<string> ParsingElments { get; private set; }
+
         /// <summary>
         /// Constructor of the parser class.
         /// </summary>
@@ -25,6 +27,8 @@ namespace Azurite.LexicalParser
             XMLParserReader reader = new XMLParserReader();
 
             automataList = reader.ReadXML(xmlPath, xsdPath);
+
+            ParsingElments = reader.ElementNames;
         }
 
         /// <summary>

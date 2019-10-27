@@ -17,9 +17,13 @@ namespace Azurite.SyntaxAnalysis
         List<SyntaxTreeNonterminal> nonTerminals = new List<SyntaxTreeNonterminal>();
 
         SyntaxGrammar grammar = new SyntaxGrammar();
-        
-        public SyntaxGrammar ReadGrammar(string xmlPath, string xsdPath)
+
+        List<string> parsingElements = null;
+
+        public SyntaxGrammar ReadGrammar(string xmlPath, string xsdPath, List<string> ElementNames)
         {
+            parsingElements = ElementNames;
+
             XmlDocument xDoc = new XmlDocument();
 
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -114,14 +118,21 @@ namespace Azurite.SyntaxAnalysis
                 throw new Exception("Rule does not contain a terminal.");
             }
 
-            if (node.ChildNodes[0].Attributes == null || node.ChildNodes[0].Attributes["type"] == null)
+            if (null == node.ChildNodes[0].Attributes || null == node.ChildNodes[0].Attributes["type"])
             {
                 throw new Exception("A token must have a type.");
             }
 
             Token t = new Token(node.ChildNodes[0].InnerText, 0);
 
-            t.SetTokenType(0, node.ChildNodes[0].Attributes["type"].Value);
+            int tokenType = parsingElements.FindIndex(x => x == node.ChildNodes[0].Attributes["type"].Value);
+
+            t.SetTokenType(tokenType, node.ChildNodes[0].Attributes["type"].Value);
+
+            if ("" == node.ChildNodes[0].InnerText)
+            {
+                t.IsTextRelevant = false;
+            }
 
             return new SyntaxTreeTerminal(t);
         }

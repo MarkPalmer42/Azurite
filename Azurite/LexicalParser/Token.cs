@@ -44,6 +44,8 @@ namespace Azurite.LexicalParser
         {
             Text = text;
             Line = line;
+
+            IsTextRelevant = true;
         }
 
         /// <summary>

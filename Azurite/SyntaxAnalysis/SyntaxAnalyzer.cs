@@ -40,11 +40,11 @@ namespace Azurite.SyntaxAnalysis
         /// <summary>
         /// Constructs the SyntaxAnalysis class based on the given XML file.
         /// </summary>
-        public SyntaxAnalyzer(string xmlPath, string xsdPath)
+        public SyntaxAnalyzer(string xmlPath, string xsdPath, List<string> parsingElements)
         {
             XMLSyntaxParserReader reader = new XMLSyntaxParserReader();
 
-            SyntaxGrammar grammar = reader.ReadGrammar(xmlPath, xsdPath);
+            SyntaxGrammar grammar = reader.ReadGrammar(xmlPath, xsdPath, parsingElements);
 
             grammar.AddZerothState();
 

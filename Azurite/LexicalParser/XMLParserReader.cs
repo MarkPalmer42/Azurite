@@ -16,7 +16,7 @@ namespace Azurite.LexicalParser
         /// <summary>
         /// The list of the token names.
         /// </summary>
-        List<string> elementNames = new List<string>();
+        public List<string> ElementNames { get; private set; }
 
         /// <summary>
         /// The list of the automatas parsed from the XML.
@@ -36,8 +36,10 @@ namespace Azurite.LexicalParser
         /// <returns></returns>
         public List<IAutomata> ReadXML(string xmlPath, string xsdPath)
         {
+            ElementNames = new List<string>();
+
             automataList.Clear();
-            elementNames.Clear();
+            ElementNames.Clear();
 
             XmlDocument xDoc = new XmlDocument();
 
@@ -69,7 +71,7 @@ namespace Azurite.LexicalParser
         {
             for (int i = 0; i < node.ChildNodes.Count; ++i)
             {
-                elementNames.Add(node.ChildNodes[i].InnerText);
+                ElementNames.Add(node.ChildNodes[i].InnerText);
             }
         }
 
@@ -89,7 +91,7 @@ namespace Azurite.LexicalParser
                 {
                     string output = n.Attributes["output"].Value;
 
-                    outputIndex = elementNames.FindIndex(x => x == output);
+                    outputIndex = ElementNames.FindIndex(x => x == output);
 
                     if (-1 == outputIndex)
                     {

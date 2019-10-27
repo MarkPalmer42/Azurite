@@ -38,7 +38,7 @@ namespace Azurite
             {
                 Parser lexicalParser = new Parser("../../lexical_parser_rules.xml", "../../lexical_parser.xsd");
 
-                SyntaxAnalyzer analyzer = new SyntaxAnalyzer("../../syntax_analysis_rules.xml", "../../syntax_analysis.xsd");
+                SyntaxAnalyzer analyzer = new SyntaxAnalyzer("../../syntax_analysis_rules.xml", "../../syntax_analysis.xsd", lexicalParser.ParsingElments);
 
                 string file = File.ReadAllText("../../example_program.txt");
 
