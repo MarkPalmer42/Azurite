@@ -1,5 +1,6 @@
 ﻿
 using Azurite.LexicalParser;
+using System;
 
 namespace Azurite.SyntaxAnalysis.SyntaxTree
 {
@@ -28,21 +29,12 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
         /// Compares two terminal elements.
         /// </summary>
         /// <param name="obj">The object to compare to</param>
-        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect object type</returns>
-        public override int CompareTo(object obj)
+        /// <returns>True if equal, false otherwise</returns>
+        public override bool Equals(SyntaxTreeElement e)
         {
-            SyntaxTreeTerminal nt = obj as SyntaxTreeTerminal;
-
-            if (null == nt)
-            {
-                return -1;
-            }
-            else
-            {
-                return SyntaxToken.CompareTo(nt.SyntaxToken);
-            }
+            SyntaxTreeTerminal t = e as SyntaxTreeTerminal;
+            return t != null && SyntaxToken.Equals(t.SyntaxToken);
         }
-
     }
 
 }

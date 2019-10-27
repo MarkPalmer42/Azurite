@@ -24,10 +24,10 @@ namespace Azurite.SyntaxAnalysis
         /// All extremal tokens are the same.
         /// </summary>
         /// <param name="obj">The object to compare to</param>
-        /// <returns>0 if obj is ExtremalToken, -1 otherwise</returns>
-        public override int CompareTo(object obj)
+        /// <returns>True if equal, false otherwise</returns>
+        public override bool Equals(Token t)
         {
-            return (obj is ExtremalToken) ? 0 : -1;
+            return t is ExtremalToken;
         }
 
     }

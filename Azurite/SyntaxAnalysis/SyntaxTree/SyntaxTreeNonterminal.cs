@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Azurite.SyntaxAnalysis.SyntaxTree
 {
@@ -40,23 +41,24 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
         }
 
         /// <summary>
-        /// Compares two nonterminal elements.
+        /// Compares two terminal elements.
         /// </summary>
         /// <param name="obj">The object to compare to</param>
-        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect object type</returns>
-        public override int CompareTo(object obj)
+        /// <returns>True if equal, false otherwise</returns>
+        public override bool Equals(SyntaxTreeElement e)
         {
-            SyntaxTreeNonterminal nt = obj as SyntaxTreeNonterminal;
+            SyntaxTreeNonterminal nt = e as SyntaxTreeNonterminal;
 
             if (null == nt)
             {
-                return -1;
+                return false;
             }
             else
             {
-                return (Name == nt.Name) ? 0 : 1;
+                return Name == nt.Name && Children.SequenceEqual(nt.Children);
             }
         }
+
     }
 
 }

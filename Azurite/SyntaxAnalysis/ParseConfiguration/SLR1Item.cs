@@ -22,7 +22,7 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
     /// 2.) E -> t.T
     /// 3.) E -> tT.
     /// </summary>
-    public class SLR1Item : IComparable
+    public class SLR1Item : IEquatable<SLR1Item>
     {
 
         /// <summary>
@@ -56,26 +56,10 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
         /// Compares two SLR1ItemSets.
         /// </summary>
         /// <param name="obj">The other object.</param>
-        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect obj type</returns>
-        public int CompareTo(object obj)
+        /// <returns>True if equals, false otherwise</returns>
+        public bool Equals(SLR1Item s)
         {
-            SLR1Item s = obj as SLR1Item;
-
-            if (null != s)
-            {
-                if (Rule.CompareTo(s.Rule) == 0 && State == s.State)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-            else
-            {
-                return -1;
-            }
+            return Rule.Equals(s.Rule) && State == s.State;
         }
     };
 

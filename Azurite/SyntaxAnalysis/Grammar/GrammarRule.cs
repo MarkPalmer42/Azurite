@@ -9,7 +9,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
     /// <summary>
     /// Represents a grammar rule that only has a nonterminal on the left side.
     /// </summary>
-    public class GrammarRule : IComparable
+    public class GrammarRule : IEquatable<GrammarRule>
     {
 
         /// <summary>
@@ -45,36 +45,26 @@ namespace Azurite.SyntaxAnalysis.Grammar
         /// Compares two grammar rules.
         /// </summary>
         /// <param name="obj">The obj to compare to</param>
-        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect obj type</returns>
-        public int CompareTo(object obj)
+        /// <returns>True if equals, false otherwise</returns>
+        public bool Equals(GrammarRule s)
         {
-            GrammarRule s = obj as GrammarRule;
-
-            if (null != s)
+            if (!LeftSide.Equals(s.LeftSide) || RightSide.Count != s.RightSide.Count)
             {
-                if (LeftSide.CompareTo(s.LeftSide) != 0 || RightSide.Count != s.RightSide.Count)
-                {
-                    return 1;
-                }
-                else
-                {
-                    bool found = false;
-                    int i = 0;
-
-                    while (!found && i < RightSide.Count)
-                    {
-                        found = RightSide[i].CompareTo(s.RightSide[i]) != 0;
-                        ++i;
-                    }
-
-                    return found ? 1 : 0;
-                }
+                return false;
             }
             else
             {
-                return -1;
+                bool all = true;
+                int i = 0;
+
+                while (all && i < RightSide.Count)
+                {
+                    all = RightSide[i].Equals(s.RightSide[i]);
+                    ++i;
+                }
+
+                return all ? true : false;
             }
         }
-
     }
 }

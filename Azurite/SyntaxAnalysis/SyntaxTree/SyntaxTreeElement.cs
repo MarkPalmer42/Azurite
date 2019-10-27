@@ -8,7 +8,7 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
     /// Represents a terminal or a nonterminal symbol.
     /// Also represents an element in the syntax tree.
     /// </summary>
-    public abstract class SyntaxTreeElement : IComparable
+    public abstract class SyntaxTreeElement : IEquatable<SyntaxTreeElement>
     {
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
         /// Compares two SyntaxTreeElement objects.
         /// </summary>
         /// <param name="obj">The object to compare to</param>
-        /// <returns>0 if equal, 1 if not equal, -1 in case of incorrect obj type</returns>
-        public abstract int CompareTo(object obj);
+        /// <returns>True if equal, false otherwise</returns>
+        public abstract bool Equals(SyntaxTreeElement other);
 
     }
 }

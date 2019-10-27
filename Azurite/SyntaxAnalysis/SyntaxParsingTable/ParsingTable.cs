@@ -103,14 +103,14 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
 
                         if (null != nt)
                         {
-                            int idx = Header.FindIndex(x => x.CompareTo(nt) == 0);
+                            int idx = Header.FindIndex(x => x.Equals(nt));
 
                             Table[i][idx].ElementType = ParsingTableElementType.jump;
                             Table[i][idx].Value = slr1Config.Config[i][j].Target;
                         }
                         else if (null != t)
                         {
-                            int idx = Header.FindIndex(x => x.CompareTo(t) == 0);
+                            int idx = Header.FindIndex(x => x.Equals(t));
 
                             Table[i][idx].ElementType = ParsingTableElementType.shift;
                             Table[i][idx].Value = slr1Config.Config[i][j].Target;
@@ -122,23 +122,23 @@ namespace Azurite.SyntaxAnalysis.SyntaxParsingTable
                     }
                     else
                     {
-                        if (0 == slr1Config.Config[i][j].Rule.CompareTo(grammar.ProductionRules[0]))
+                        if (slr1Config.Config[i][j].Rule.Equals(grammar.ProductionRules[0]))
                         {
-                            int extremalIndex = Header.FindIndex(x => x.CompareTo(extremalToken) == 0);
+                            int extremalIndex = Header.FindIndex(x => x.Equals(extremalToken));
 
                             Table[i][extremalIndex].ElementType = ParsingTableElementType.accept;
                         }
                         else
                         {
-                            var follow = followSet.Find(x => x.NonTerminal.CompareTo(slr1Config.Config[i][j].Rule.LeftSide) == 0);
+                            var follow = followSet.Find(x => x.NonTerminal.Equals(slr1Config.Config[i][j].Rule.LeftSide));
 
                             foreach (var t in follow.Terminals)
                             {
-                                int idx = Header.FindIndex(x => x.CompareTo(t) == 0);
+                                int idx = Header.FindIndex(x => x.Equals(t));
 
                                 Table[i][idx].ElementType = ParsingTableElementType.reduce;
 
-                                var productionIdx = grammar.ProductionRules.FindIndex(x => x.CompareTo(slr1Config.Config[i][j].Rule) == 0);
+                                var productionIdx = grammar.ProductionRules.FindIndex(x => x.Equals(slr1Config.Config[i][j].Rule));
 
                                 Table[i][idx].Value = productionIdx;
                             }

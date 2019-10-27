@@ -109,7 +109,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
 
             SyntaxTreeNonterminal startSymbol = ProductionRules[0].LeftSide;
 
-            if (1 != ProductionRules.Count(x => x.LeftSide.CompareTo(startSymbol) == 0))
+            if (1 != ProductionRules.Count(x => x.LeftSide.Equals(startSymbol)))
             {
                 return false;
             }
@@ -120,7 +120,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
                 {
                     if (rhs is SyntaxTreeNonterminal)
                     {
-                        if (-1 == ProductionRules.FindIndex(x => x.LeftSide.CompareTo(rhs) == 0))
+                        if (-1 == ProductionRules.FindIndex(x => x.LeftSide.Equals(rhs)))
                         {
                             return false;
                         }
@@ -137,7 +137,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
         /// <param name="nt">The nonterminal to be added</param>
         private void AddToNonTerminals(SyntaxTreeNonterminal nt)
         {
-            if (-1 == Nonterminals.FindIndex(x => x.CompareTo(nt) == 0))
+            if (-1 == Nonterminals.FindIndex(x => x.Equals(nt)))
             {
                 Nonterminals.Add(nt);
             }
@@ -161,7 +161,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
                 }
                 else if (null != t)
                 {
-                    if (-1 == Terminals.FindIndex(x => x.CompareTo(t) == 0))
+                    if (-1 == Terminals.FindIndex(x => x.Equals(t)))
                     {
                         Terminals.Add(t);
                     }
@@ -192,7 +192,7 @@ namespace Azurite.SyntaxAnalysis.Grammar
                 {
                     nt = new SyntaxTreeNonterminal("ZERO" + i.ToString());
                 }
-                while (-1 != ProductionRules.FindIndex(x => x.LeftSide.CompareTo(nt) == 0));
+                while (-1 != ProductionRules.FindIndex(x => x.LeftSide.Equals(nt)));
 
                 List<SyntaxTreeElement> elements = new List<SyntaxTreeElement>();
 

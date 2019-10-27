@@ -6,7 +6,7 @@ namespace Azurite.LexicalParser
     /// <summary>
     /// The token type.
     /// </summary>
-    public class Token : IComparable
+    public class Token : IEquatable<Token>
     {
 
         /// <summary>
@@ -63,25 +63,21 @@ namespace Azurite.LexicalParser
         /// Compares this token instance to an object.
         /// </summary>
         /// <param name="obj">The object to compare to</param>
-        /// <returns>0 if equal, 1 if not equal, -1 if the object is not a Token</returns>
-        public virtual int CompareTo(object obj)
+        /// <returns>True if the two tokens are equal, false otherwise</returns>
+        public virtual bool Equals(Token t)
         {
-            Token t = obj as Token;
-
-            if (null != t)
+            if (null == t)
             {
-                if (IsTextRelevant)
-                {
-                    return (t.Text == Text && t.TokenType == TokenType) ? 0 : 1;
-                }
-                else
-                {
-                    return t.TokenType == TokenType ? 0 : 1;
-                }
+                return false;
+            }
+
+            if (IsTextRelevant)
+            {
+                return t.Text == Text && t.TokenType == TokenType;
             }
             else
             {
-                return -1;
+                return t.TokenType == TokenType;
             }
         }
 

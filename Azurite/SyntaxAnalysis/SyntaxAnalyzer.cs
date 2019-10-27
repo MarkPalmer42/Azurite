@@ -95,7 +95,7 @@ namespace Azurite.SyntaxAnalysis
             {
                 SyntaxTreeTerminal stt = new SyntaxTreeTerminal(tokens[index]);
 
-                currentColumn = parsingTable.Header.FindIndex(x => x.CompareTo(stt) == 0);
+                currentColumn = parsingTable.Header.FindIndex(x => x.Equals(stt));
 
                 ParsingTableElement element = parsingTable.Table[currentRow][currentColumn];
 
@@ -113,7 +113,7 @@ namespace Azurite.SyntaxAnalysis
 
                     for (int i = rule.RightSide.Count - 1; i >= 0; --i)
                     {
-                        if (elemStack.Peek().Element.CompareTo(rule.RightSide[i]) == 0)
+                        if (elemStack.Peek().Element.Equals(rule.RightSide[i]))
                         {
                             elemStack.Peek().Element.SetParent(nt);
                             nt.Children.Insert(0, elemStack.Peek().Element);
@@ -127,7 +127,7 @@ namespace Azurite.SyntaxAnalysis
 
                     currentRow = elemStack.Peek().Value;
 
-                    int ruleLocation = parsingTable.Header.FindIndex(x => x.CompareTo(rule.LeftSide) == 0);
+                    int ruleLocation = parsingTable.Header.FindIndex(x => x.Equals(rule.LeftSide));
 
                     if (parsingTable.Table[currentRow][ruleLocation].ElementType != ParsingTableElementType.jump)
                     {
@@ -140,7 +140,7 @@ namespace Azurite.SyntaxAnalysis
                 }
                 else if (element.ElementType == ParsingTableElementType.accept)
                 {
-                    if (elemStack.Count != 2 || elemStack.Peek().Element.CompareTo(parsingRules.ProductionRules[1].LeftSide) != 0)
+                    if (elemStack.Count != 2 || elemStack.Peek().Element.Equals(parsingRules.ProductionRules[1].LeftSide))
                     {
                         throw new System.Exception("Syntax error: invalid parsing table.");
                     }

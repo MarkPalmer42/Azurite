@@ -44,7 +44,7 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
         {
             if (null != extendable)
             {
-                int idx = Config.FindIndex(x => x[0].CompareTo(extendable[0]) == 0);
+                int idx = Config.FindIndex(x => x[0].Equals(extendable[0]));
 
                 if (-1 != idx)
                 {
@@ -82,11 +82,11 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
                     {
                         foreach (var rule in grammar.ProductionRules)
                         {
-                            if (0 == rule.LeftSide.CompareTo(nextSymbol))
+                            if (rule.LeftSide.Equals(nextSymbol))
                             {
                                 SLR1Item extendedRuleSet = new SLR1Item(rule, 0);
 
-                                int idx = Config[currentRuleSet].FindIndex(x => x.CompareTo(extendedRuleSet) == 0);
+                                int idx = Config[currentRuleSet].FindIndex(x => x.Equals(extendedRuleSet));
 
                                 if (-1 == idx)
                                 {
@@ -117,7 +117,7 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
                     {
                         if (s2.Rule.RightSide.Count > s2.State)
                         {
-                            if (nextSymbol.CompareTo(s2.Rule.RightSide[s2.State]) == 0)
+                            if (nextSymbol.Equals(s2.Rule.RightSide[s2.State]))
                             {
                                 nextRuleSet.Add(new SLR1Item(s2.Rule, s2.State + 1));
                             }

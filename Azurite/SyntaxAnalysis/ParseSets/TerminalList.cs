@@ -38,7 +38,7 @@ namespace Azurite.SyntaxAnalysis.ParseSets
         /// <param name="terminal">The terminal to be added</param>
         public void AddTerminal(SyntaxTreeTerminal terminal)
         {
-            if (-1 == Terminals.FindIndex(x => x.CompareTo(terminal) == 0))
+            if (-1 == Terminals.FindIndex(x => x.Equals(terminal)))
             {
                 Terminals.Add(terminal);
             }
