@@ -31,6 +31,11 @@ namespace Azurite.LexicalParser
         public string TokenTypeName { get; private set; }
 
         /// <summary>
+        /// True if the text is relevant during comparison.
+        /// </summary>
+        public bool IsTextRelevant { get; set; }
+
+        /// <summary>
         /// Constructor of the token class.
         /// </summary>
         /// <param name="text">The parsed text</param>
@@ -63,7 +68,14 @@ namespace Azurite.LexicalParser
 
             if (null != t)
             {
-                return (t.Text == Text && t.TokenType == TokenType) ? 0 : 1;
+                if (IsTextRelevant)
+                {
+                    return (t.Text == Text && t.TokenType == TokenType) ? 0 : 1;
+                }
+                else
+                {
+                    return t.TokenType == TokenType ? 0 : 1;
+                }
             }
             else
             {
