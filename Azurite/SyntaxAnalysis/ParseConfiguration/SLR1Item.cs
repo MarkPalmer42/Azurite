@@ -55,12 +55,31 @@ namespace Azurite.SyntaxAnalysis.ParseConfiguration
         /// <summary>
         /// Compares two SLR1ItemSets.
         /// </summary>
-        /// <param name="obj">The other object.</param>
+        /// <param name="s">The other object.</param>
         /// <returns>True if equals, false otherwise</returns>
         public bool Equals(SLR1Item s)
         {
+            if (null == s)
+            {
+                return false;
+            }
+
             return Rule.Equals(s.Rule) && State == s.State;
         }
+
+        /// <summary>
+        /// Compares two SLR1ItemSets.
+        /// </summary>
+        /// <param name="obj">The other object.</param>
+        /// <returns>True if equals, false otherwise</returns>
+        public override bool Equals(object obj) => Equals(obj as SLR1Item);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode() => (Rule, State).GetHashCode();
+
     };
 
 }

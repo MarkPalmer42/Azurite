@@ -62,7 +62,7 @@ namespace Azurite.LexicalParser
         /// <summary>
         /// Compares this token instance to an object.
         /// </summary>
-        /// <param name="obj">The object to compare to</param>
+        /// <param name="e">The object to compare to</param>
         /// <returns>True if the two tokens are equal, false otherwise</returns>
         public virtual bool Equals(Token t)
         {
@@ -78,6 +78,29 @@ namespace Azurite.LexicalParser
             else
             {
                 return t.TokenType == TokenType;
+            }
+        }
+
+        /// <summary>
+        /// Compares this token instance to an object.
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if the two tokens are equal, false otherwise</returns>
+        public override bool Equals(object obj) => Equals(obj as Token);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode()
+        {
+            if (IsTextRelevant)
+            {
+                return (Text, TokenType).GetHashCode();
+            }
+            else
+            {
+                return TokenType.GetHashCode();
             }
         }
 

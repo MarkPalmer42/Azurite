@@ -36,9 +36,22 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
         /// <summary>
         /// Compares two SyntaxTreeElement objects.
         /// </summary>
-        /// <param name="obj">The object to compare to</param>
+        /// <param name="other">The object to compare to</param>
         /// <returns>True if equal, false otherwise</returns>
         public abstract bool Equals(SyntaxTreeElement other);
+
+        /// <summary>
+        /// Compares two SyntaxTreeElement objects.
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if equal, false otherwise</returns>
+        public abstract override bool Equals(object obj);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public abstract override int GetHashCode();
 
     }
 }

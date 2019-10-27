@@ -43,7 +43,7 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
         /// <summary>
         /// Compares two terminal elements.
         /// </summary>
-        /// <param name="obj">The object to compare to</param>
+        /// <param name="e">The object to compare to</param>
         /// <returns>True if equal, false otherwise</returns>
         public override bool Equals(SyntaxTreeElement e)
         {
@@ -58,6 +58,19 @@ namespace Azurite.SyntaxAnalysis.SyntaxTree
                 return Name == nt.Name && Children.SequenceEqual(nt.Children);
             }
         }
+
+        /// <summary>
+        /// Compares two terminal elements.
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if equal, false otherwise</returns>
+        public override bool Equals(object obj) => Equals(obj as SyntaxTreeNonterminal);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode() => (Name, Children).GetHashCode();
 
     }
 

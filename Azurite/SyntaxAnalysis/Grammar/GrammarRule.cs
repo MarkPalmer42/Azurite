@@ -44,10 +44,15 @@ namespace Azurite.SyntaxAnalysis.Grammar
         /// <summary>
         /// Compares two grammar rules.
         /// </summary>
-        /// <param name="obj">The obj to compare to</param>
+        /// <param name="s">The obj to compare to</param>
         /// <returns>True if equals, false otherwise</returns>
         public bool Equals(GrammarRule s)
         {
+            if (null == s)
+            {
+                return false;
+            }
+
             if (!LeftSide.Equals(s.LeftSide) || RightSide.Count != s.RightSide.Count)
             {
                 return false;
@@ -66,5 +71,19 @@ namespace Azurite.SyntaxAnalysis.Grammar
                 return all ? true : false;
             }
         }
+
+        /// <summary>
+        /// Compares two grammar rules.
+        /// </summary>
+        /// <param name="obj">The obj to compare to</param>
+        /// <returns>True if equals, false otherwise</returns>
+        public override bool Equals(object obj) => Equals(obj as GrammarRule);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode() => (LeftSide, RightSide).GetHashCode();
+
     }
 }

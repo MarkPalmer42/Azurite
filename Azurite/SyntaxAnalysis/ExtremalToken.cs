@@ -23,12 +23,31 @@ namespace Azurite.SyntaxAnalysis
         /// Compares two extremal tokens.
         /// All extremal tokens are the same.
         /// </summary>
-        /// <param name="obj">The object to compare to</param>
+        /// <param name="e">The object to compare to</param>
         /// <returns>True if equal, false otherwise</returns>
         public override bool Equals(Token t)
         {
+            if (null == t)
+            {
+                return false;
+            }
+
             return t is ExtremalToken;
         }
+
+        /// <summary>
+        /// Compares two extremal tokens.
+        /// All extremal tokens are the same.
+        /// </summary>
+        /// <param name="obj">The object to compare to</param>
+        /// <returns>True if equal, false otherwise</returns>
+        public override bool Equals(object obj) => Equals(obj as ExtremalToken);
+
+        /// <summary>
+        /// Calculates the has code for the object.
+        /// </summary>
+        /// <returns>The hash code</returns>
+        public override int GetHashCode() => 0;
 
     }
 }
