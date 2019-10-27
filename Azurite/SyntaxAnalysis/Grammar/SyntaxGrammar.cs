@@ -178,6 +178,11 @@ namespace Azurite.SyntaxAnalysis.Grammar
         /// </summary>
         public void AddZerothState()
         {
+            if (ProductionRules.Count == 0)
+            {
+                throw new Exception("Cannot add zeroth state to a non existing production rule set.");
+            }
+
             if (!zerothStateAdded)
             {
                 int i = 0;
