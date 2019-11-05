@@ -90,7 +90,7 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(true, CompareLists(b, new List<string>() { "c", "d" }));
         }
 
-        // <summary>
+        /// <summary>
         /// Tests if the first set calculation works.
         /// </summary>
         [TestMethod]
@@ -129,6 +129,82 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(true, CompareLists(e, new List<string>() { "a", "(" }));
             Assert.AreEqual(true, CompareLists(t, new List<string>() { "a", "(" }));
             Assert.AreEqual(true, CompareLists(f, new List<string>() { "a", "(" }));
+        }
+
+        /// <summary>
+        /// Tests if the first set calculation works.
+        /// </summary>
+        [TestMethod]
+        public void FirstSetGeneration_4()
+        {
+            SyntaxGrammar grammar = new SyntaxGrammar();
+
+            grammar.AddSimpleRule('S', "sE");
+            grammar.AddSimpleRule('E', "BD");
+            grammar.AddSimpleRule('B', "bB");
+            grammar.AddSimpleRule('D', "dD");
+
+            grammar.AddZerothState();
+
+            ParsingSets sets = new ParsingSets(grammar);
+
+            Assert.AreEqual(5, sets.FollowSet.Count);
+
+            var zero = sets.FirstSet.Find(x => x.NonTerminal.Name == "ZERO0");
+            var s = sets.FirstSet.Find(x => x.NonTerminal.Name == "S");
+            var e = sets.FirstSet.Find(x => x.NonTerminal.Name == "E");
+            var b = sets.FirstSet.Find(x => x.NonTerminal.Name == "B");
+            var d = sets.FirstSet.Find(x => x.NonTerminal.Name == "D");
+
+            Assert.AreNotEqual(null, zero);
+            Assert.AreNotEqual(null, s);
+            Assert.AreNotEqual(null, e);
+            Assert.AreNotEqual(null, b);
+            Assert.AreNotEqual(null, d);
+
+            Assert.AreEqual(true, CompareLists(zero, new List<string>() { "s" }));
+            Assert.AreEqual(true, CompareLists(s, new List<string>() { "s" }));
+            Assert.AreEqual(true, CompareLists(e, new List<string>() { "b" }));
+            Assert.AreEqual(true, CompareLists(b, new List<string>() { "b" }));
+            Assert.AreEqual(true, CompareLists(d, new List<string>() { "d" }));
+        }
+
+        /// <summary>
+        /// Tests if the first set calculation works.
+        /// </summary>
+        [TestMethod]
+        public void FirstSetGeneration_5()
+        {
+            SyntaxGrammar grammar = new SyntaxGrammar();
+
+            grammar.AddSimpleRule('S', "EBD");
+            grammar.AddSimpleRule('E', "eE");
+            grammar.AddSimpleRule('B', "");
+            grammar.AddSimpleRule('D', "dD");
+
+            grammar.AddZerothState();
+
+            ParsingSets sets = new ParsingSets(grammar);
+
+            Assert.AreEqual(5, sets.FollowSet.Count);
+
+            var zero = sets.FirstSet.Find(x => x.NonTerminal.Name == "ZERO0");
+            var s = sets.FirstSet.Find(x => x.NonTerminal.Name == "S");
+            var e = sets.FirstSet.Find(x => x.NonTerminal.Name == "E");
+            var b = sets.FirstSet.Find(x => x.NonTerminal.Name == "B");
+            var d = sets.FirstSet.Find(x => x.NonTerminal.Name == "D");
+
+            Assert.AreNotEqual(null, zero);
+            Assert.AreNotEqual(null, s);
+            Assert.AreNotEqual(null, e);
+            Assert.AreNotEqual(null, b);
+            Assert.AreNotEqual(null, d);
+
+            Assert.AreEqual(true, CompareLists(zero, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(s, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(e, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(b, new List<string>() { "ß" }));
+            Assert.AreEqual(true, CompareLists(d, new List<string>() { "d" }));
         }
 
         /// <summary>
@@ -244,6 +320,44 @@ namespace AzuriteTest.SyntaAnalysis
         }
 
         /// <summary>
+        /// Tests if the follow set calculation works.
+        /// </summary>
+        [TestMethod]
+        public void FollowSetGeneration_4()
+        {
+            SyntaxGrammar grammar = new SyntaxGrammar();
+
+            grammar.AddSimpleRule('S', "EBD");
+            grammar.AddSimpleRule('E', "eE");
+            grammar.AddSimpleRule('B', "");
+            grammar.AddSimpleRule('D', "dD");
+
+            grammar.AddZerothState();
+
+            ParsingSets sets = new ParsingSets(grammar);
+
+            Assert.AreEqual(5, sets.FollowSet.Count);
+
+            var zero = sets.FollowSet.Find(x => x.NonTerminal.Name == "ZERO0");
+            var s = sets.FollowSet.Find(x => x.NonTerminal.Name == "S");
+            var e = sets.FollowSet.Find(x => x.NonTerminal.Name == "E");
+            var b = sets.FollowSet.Find(x => x.NonTerminal.Name == "B");
+            var d = sets.FollowSet.Find(x => x.NonTerminal.Name == "D");
+
+            Assert.AreNotEqual(null, zero);
+            Assert.AreNotEqual(null, s);
+            Assert.AreNotEqual(null, e);
+            Assert.AreNotEqual(null, b);
+            Assert.AreNotEqual(null, d);
+
+            Assert.AreEqual(true, CompareLists(zero, new List<string>() { "$" }));
+            Assert.AreEqual(true, CompareLists(s, new List<string>() { "$" }));
+            Assert.AreEqual(true, CompareLists(e, new List<string>() { "d" }));
+            Assert.AreEqual(true, CompareLists(b, new List<string>() { "d" }));
+            Assert.AreEqual(true, CompareLists(d, new List<string>() { "$" }));
+        }
+
+        /// <summary>
         /// Compares a terminal list to a list of strings.
         /// </summary>
         /// <param name="list1">Terminal list</param>
@@ -258,6 +372,10 @@ namespace AzuriteTest.SyntaAnalysis
                 if ("$" == s)
                 {
                     list2.AddTerminal(new SyntaxTreeTerminal(new ExtremalToken()));
+                }
+                else if ("ß" == s)
+                {
+                    list2.AddTerminal(new SyntaxTreeTerminal(new EmptyToken()));
                 }
                 else
                 {
