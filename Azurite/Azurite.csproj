@@ -58,6 +58,7 @@
     <Compile Include="LexicalParser\Token.cs" />
     <Compile Include="LexicalParser\XMLParserReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxAnalysis\EmptyToken.cs" />
     <Compile Include="SyntaxAnalysis\ExtremalToken.cs" />
     <Compile Include="SyntaxAnalysis\ParseSets\ParsingSets.cs" />
     <Compile Include="SyntaxAnalysis\ParseConfiguration\SLR1Item.cs" />
