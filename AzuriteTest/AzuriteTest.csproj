@@ -57,6 +57,7 @@
     <Compile Include="SyntaAnalysis\FirstFollowSetCalculation_UT.cs" />
     <Compile Include="SyntaAnalysis\ParseTableBuild_IT.cs" />
     <Compile Include="SyntaAnalysis\SyntaxGrammar_UT.cs" />
+    <Compile Include="SyntaAnalysis\SLR1Configuration_UT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

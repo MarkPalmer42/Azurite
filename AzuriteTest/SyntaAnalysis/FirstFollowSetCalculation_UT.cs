@@ -208,6 +208,48 @@ namespace AzuriteTest.SyntaAnalysis
         }
 
         /// <summary>
+        /// Tests if the first set calculation works.
+        /// </summary>
+        [TestMethod]
+        public void FirstSetGeneration_6()
+        {
+            SyntaxGrammar grammar = new SyntaxGrammar();
+
+            grammar.AddSimpleRule('S', "EBCD");
+            grammar.AddSimpleRule('E', "eE");
+            grammar.AddSimpleRule('B', "");
+            grammar.AddSimpleRule('C', "");
+            grammar.AddSimpleRule('C', "cC");
+            grammar.AddSimpleRule('D', "dD");
+
+            grammar.AddZerothState();
+
+            ParsingSets sets = new ParsingSets(grammar);
+
+            Assert.AreEqual(6, sets.FollowSet.Count);
+
+            var zero = sets.FirstSet.Find(x => x.NonTerminal.Name == "ZERO0");
+            var s = sets.FirstSet.Find(x => x.NonTerminal.Name == "S");
+            var e = sets.FirstSet.Find(x => x.NonTerminal.Name == "E");
+            var b = sets.FirstSet.Find(x => x.NonTerminal.Name == "B");
+            var c = sets.FirstSet.Find(x => x.NonTerminal.Name == "C");
+            var d = sets.FirstSet.Find(x => x.NonTerminal.Name == "D");
+
+            Assert.AreNotEqual(null, zero);
+            Assert.AreNotEqual(null, s);
+            Assert.AreNotEqual(null, e);
+            Assert.AreNotEqual(null, b);
+            Assert.AreNotEqual(null, d);
+
+            Assert.AreEqual(true, CompareLists(zero, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(s, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(e, new List<string>() { "e" }));
+            Assert.AreEqual(true, CompareLists(b, new List<string>() { "ß" }));
+            Assert.AreEqual(true, CompareLists(c, new List<string>() { "ß", "c" }));
+            Assert.AreEqual(true, CompareLists(d, new List<string>() { "d" }));
+        }
+
+        /// <summary>
         /// Tests if the follow set calculation work in case of cross-reference in SLR1 grammar.
         /// </summary>
         [TestMethod]
@@ -354,6 +396,48 @@ namespace AzuriteTest.SyntaAnalysis
             Assert.AreEqual(true, CompareLists(s, new List<string>() { "$" }));
             Assert.AreEqual(true, CompareLists(e, new List<string>() { "d" }));
             Assert.AreEqual(true, CompareLists(b, new List<string>() { "d" }));
+            Assert.AreEqual(true, CompareLists(d, new List<string>() { "$" }));
+        }
+
+        /// <summary>
+        /// Tests if the follow set calculation works.
+        /// </summary>
+        [TestMethod]
+        public void FollowSetGeneration_5()
+        {
+            SyntaxGrammar grammar = new SyntaxGrammar();
+
+            grammar.AddSimpleRule('S', "EBCD");
+            grammar.AddSimpleRule('E', "eE");
+            grammar.AddSimpleRule('B', "");
+            grammar.AddSimpleRule('C', "");
+            grammar.AddSimpleRule('C', "cC");
+            grammar.AddSimpleRule('D', "dD");
+
+            grammar.AddZerothState();
+
+            ParsingSets sets = new ParsingSets(grammar);
+
+            Assert.AreEqual(6, sets.FollowSet.Count);
+
+            var zero = sets.FollowSet.Find(x => x.NonTerminal.Name == "ZERO0");
+            var s = sets.FollowSet.Find(x => x.NonTerminal.Name == "S");
+            var e = sets.FollowSet.Find(x => x.NonTerminal.Name == "E");
+            var b = sets.FollowSet.Find(x => x.NonTerminal.Name == "B");
+            var c = sets.FollowSet.Find(x => x.NonTerminal.Name == "C");
+            var d = sets.FollowSet.Find(x => x.NonTerminal.Name == "D");
+
+            Assert.AreNotEqual(null, zero);
+            Assert.AreNotEqual(null, s);
+            Assert.AreNotEqual(null, e);
+            Assert.AreNotEqual(null, b);
+            Assert.AreNotEqual(null, d);
+
+            Assert.AreEqual(true, CompareLists(zero, new List<string>() { "$" }));
+            Assert.AreEqual(true, CompareLists(s, new List<string>() { "$" }));
+            Assert.AreEqual(true, CompareLists(e, new List<string>() { "c", "d" }));
+            Assert.AreEqual(true, CompareLists(b, new List<string>() { "c", "d" }));
+            Assert.AreEqual(true, CompareLists(c, new List<string>() { "d" }));
             Assert.AreEqual(true, CompareLists(d, new List<string>() { "$" }));
         }
 

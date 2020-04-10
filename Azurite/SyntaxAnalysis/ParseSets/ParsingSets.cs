@@ -56,14 +56,16 @@ namespace Azurite.SyntaxAnalysis.ParseSets
         /// <param name="first">The output set of first terminals</param>
         /// <param name="grammar">The grammar input</param>
         /// <param name="deduction">The currently deduced grammar rule</param>
-        private void RecursiveCalculateFirst(SyntaxGrammar grammar, SyntaxTreeNonterminal deduction)
+        private TerminalList RecursiveCalculateFirst(SyntaxGrammar grammar, SyntaxTreeNonterminal deduction)
         {
-            if (-1 != FirstSet.FindIndex(x => x.NonTerminal.Equals(deduction)))
+            TerminalList termList = FirstSet.Find(x => x.NonTerminal.Equals(deduction));
+
+            if (null != termList)
             {
-                return;
+                return termList;
             }
 
-            TerminalList termList = new TerminalList(deduction);
+            termList = new TerminalList(deduction);
 
             FirstSet.Add(termList);
 
@@ -71,9 +73,16 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.Equals(rule.LeftSide))
                 {
-                    if (rule.RightSide[0] is SyntaxTreeTerminal)
+                    if (0 == rule.RightSide.Count)
                     {
-                        termList.AddTerminal(rule.RightSide[0] as SyntaxTreeTerminal);
+                        termList.AddTerminal(new SyntaxTreeTerminal(new EmptyToken()));
+                    }
+                    else
+                    {
+                        if (rule.RightSide[0] is SyntaxTreeTerminal)
+                        {
+                            termList.AddTerminal(rule.RightSide[0] as SyntaxTreeTerminal);
+                        }
                     }
                 }
             }
@@ -82,13 +91,11 @@ namespace Azurite.SyntaxAnalysis.ParseSets
             {
                 if (deduction.Equals(rule.LeftSide))
                 {
-                    if (rule.RightSide[0] is SyntaxTreeNonterminal)
+                    if (0 < rule.RightSide.Count && rule.RightSide[0] is SyntaxTreeNonterminal)
                     {
                         if (!deduction.Equals(rule.RightSide[0]))
                         {
-                            RecursiveCalculateFirst(grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
-
-                            var firstOfDeduced = FirstSet.Find(x => x.NonTerminal.Equals(rule.RightSide[0]));
+                            var firstOfDeduced = RecursiveCalculateFirst(grammar, rule.RightSide[0] as SyntaxTreeNonterminal);
 
                             foreach (var terminal in firstOfDeduced.Terminals)
                             {
@@ -96,8 +103,18 @@ namespace Azurite.SyntaxAnalysis.ParseSets
                             }
                         }
                     }
+
+                    for(int i = 1; i < rule.RightSide.Count; ++i)
+                    {
+                        if (rule.RightSide[i] is SyntaxTreeNonterminal)
+                        {
+                            RecursiveCalculateFirst(grammar, rule.RightSide[i] as SyntaxTreeNonterminal);
+                        }
+                    }
                 }
             }
+
+            return termList;
         }
 
         /// <summary>
@@ -144,40 +161,63 @@ namespace Azurite.SyntaxAnalysis.ParseSets
                 {
                     if (rule.RightSide[i].Equals(nt))
                     {
-                        if (i + 1 == rule.RightSide.Count)
+                        bool emptyToken = false;
+                        int j = i + 1;
+
+                        do
                         {
-                            if (!rule.LeftSide.Equals(nt))
+                            if (j == rule.RightSide.Count)
                             {
-                                var fList = RecursiveCalculateFollow(grammar, rule.LeftSide);
-
-                                foreach (var t in fList.Terminals)
+                                if (!rule.LeftSide.Equals(nt))
                                 {
-                                    termList.AddTerminal(t);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (rule.RightSide[i + 1] is SyntaxTreeTerminal)
-                            {
-                                termList.AddTerminal(rule.RightSide[i + 1] as SyntaxTreeTerminal);
-                            }
-                            else if (rule.RightSide[i + 1] is SyntaxTreeNonterminal)
-                            {
-                                SyntaxTreeNonterminal syntaxTreeNonterminal = rule.RightSide[i + 1] as SyntaxTreeNonterminal;
+                                    var fList = RecursiveCalculateFollow(grammar, rule.LeftSide);
 
-                                var firstSet = FirstSet.Find(x => x.NonTerminal.Equals(syntaxTreeNonterminal));
-
-                                foreach (var t in firstSet.Terminals)
-                                {
-                                    termList.AddTerminal(t);
+                                    foreach (var t in fList.Terminals)
+                                    {
+                                        termList.AddTerminal(t);
+                                    }
                                 }
                             }
                             else
                             {
-                                throw new System.Exception("Invalid syntax tree element."); 
+                                var rhs = rule.RightSide[j] as SyntaxTreeTerminal;
+
+                                if (null != rhs)
+                                {
+                                    termList.AddTerminal(rhs);
+                                }
+                                else if (rule.RightSide[j] is SyntaxTreeNonterminal)
+                                {
+                                    SyntaxTreeNonterminal syntaxTreeNonterminal = rule.RightSide[j] as SyntaxTreeNonterminal;
+
+                                    var firstSet = FirstSet.Find(x => x.NonTerminal.Equals(syntaxTreeNonterminal));
+
+                                    emptyToken = false;
+
+                                    foreach (var t in firstSet.Terminals)
+                                    {
+                                        if (t.SyntaxToken is EmptyToken)
+                                        {
+                                            emptyToken = true;
+                                        }
+                                        else
+                                        {
+                                            termList.AddTerminal(t);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new System.Exception("Invalid syntax tree element.");
+                                }
+                            }
+
+                            if (emptyToken)
+                            {
+                                ++j;
                             }
                         }
+                        while (emptyToken && j < rule.RightSide.Count);
                     }
                 }
             }
